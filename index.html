@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexis Gethsemani - Terminal Web</title>
+    <title>Alexis Gethsemani Hernández Hernández</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     
     <style>
@@ -21,6 +21,7 @@
             --card-bg: rgba(10, 10, 10, 0.2); 
             /* Sombra oscura para que resalte el texto */
             --text-shadow: 2px 2px 2px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+            --modal-bg: #000000;
         }
 
         /* MODO CLARO */
@@ -35,6 +36,7 @@
             --card-bg: rgba(240, 248, 255, 0.3); 
             /* Sombra clara para que resalte el texto */
             --text-shadow: 1px 1px 2px #ffffff, -1px -1px 2px #ffffff, 1px -1px 2px #ffffff, -1px 1px 2px #ffffff;
+            --modal-bg: #f0f8ff;
         }
 
         * {
@@ -62,7 +64,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -1; /* Mantiene las estrellas estrictamente en el fondo */
+            z-index: -1;
+            /* Mantiene las estrellas estrictamente en el fondo */
         }
 
         /* ==================================================================
@@ -158,37 +161,6 @@
             font-size: 2em;
         }
 
-        /* ==================================================================
-           ESTILOS: INICIO (PERFIL Y CV)
-           ================================================================== */
-        .profile-container {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 40px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .profile-pic {
-            width: 180px;
-            height: 180px;
-            border: 4px solid var(--text-main);
-            object-fit: cover;
-            background-color: #222;
-        }
-
-        .profile-info h2 {
-            margin: 0 0 10px 0;
-            color: var(--text-highlight);
-            font-size: 1.8em;
-        }
-
-        .cv-box {
-            border: 2px dotted var(--text-alt);
-            padding: 25px;
-            background-color: var(--nav-bg);
-        }
-
         button.retro-btn {
             background-color: transparent;
             color: var(--text-main);
@@ -205,6 +177,91 @@
         button.retro-btn:hover {
             background-color: var(--text-main);
             color: var(--bg-color);
+        }
+
+        /* ==================================================================
+           MODAL DEL CV (ESTILO VENTANA DE SO)
+           ================================================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+        }
+
+        .modal-window {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            background-color: var(--modal-bg);
+            border: 3px solid var(--text-main);
+            z-index: 2001;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.6);
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            padding: 5px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: none;
+            position: sticky;
+            top: 0;
+        }
+
+        .modal-header button {
+            background: transparent;
+            border: 2px solid var(--bg-color);
+            color: var(--bg-color);
+            font-family: 'VT323', monospace;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        .modal-header button:hover {
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        .modal-content {
+            padding: 30px;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border: 4px solid var(--text-main);
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .profile-info h2 {
+            margin: 0 0 10px 0;
+            color: var(--text-highlight);
+            font-size: 1.8em;
         }
 
         /* ==================================================================
@@ -249,38 +306,56 @@
             margin: 20px 0;
         }
 
+        .print-only-header {
+            display: none;
+        }
+
         /* ==================================================================
-           IMPRESIÓN (SOLO CV)
+           IMPRESIÓN (SOLO CV DENTRO DEL MODAL)
            ================================================================== */
         @media print {
+            body * {
+                visibility: hidden; /* Oculta todo por defecto */
+            }
+            
             body {
                 background: white !important;
-                color: black !important;
-                font-family: 'Courier New', Courier, monospace !important;
                 padding: 0 !important;
             }
-            
-            #top-nav, #starfield, .profile-container, .section-title, .retro-btn {
-                display: none !important;
-            }
 
-            #main-container {
-                border: none;
-                background: transparent;
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-            }
-
-            .cv-box {
-                border: none;
-                background: transparent;
-                padding: 0;
-            }
-            
-            .cv-box * {
+            /* Hacemos visible solo el contenido del CV */
+            #print-cv-area, #print-cv-area * {
+                visibility: visible;
                 color: black !important;
                 text-shadow: none !important;
+                font-family: 'Courier New', Courier, monospace !important;
+            }
+
+            #print-cv-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Elementos que no queremos en el PDF */
+            .no-print, .modal-header, .retro-btn {
+                display: none !important;
+            }
+            
+            .modal-window {
+                border: none !important;
+                box-shadow: none !important;
+                position: static !important;
+                transform: none !important;
+                width: 100% !important;
+                max-width: none !important;
+            }
+            
+            .print-only-header {
+                display: block !important;
             }
         }
         
@@ -288,17 +363,18 @@
             .nav-center { gap: 15px; font-size: 1em; }
             .nav-controls { flex-direction: column; gap: 5px; }
             button.control-btn { font-size: 0.9em; padding: 4px 8px; }
+            .modal-window { width: 95%; }
         }
     </style>
 </head>
 <body>
 
     <!-- FONDO ANIMADO -->
-    <canvas id="starfield"></canvas>
+    <canvas id="starfield" class="no-print"></canvas>
 
     <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
-    <nav id="top-nav">
-        <div style="width: 80px;" class="nav-spacer no-print"></div> 
+    <nav id="top-nav" class="no-print">
+        <div style="width: 80px;" class="nav-spacer"></div> 
         
         <div class="nav-center">
             <a onclick="navigate('inicio')" id="link-inicio" data-i18n="nav-home">☆ Inicio</a>
@@ -314,37 +390,25 @@
     </nav>
 
     <!-- CONTENEDOR PRINCIPAL OPACIDAD 1.0 -->
-    <div id="main-container">
+    <div id="main-container" class="no-print">
         
         <section id="inicio" class="page-section">
             <h1 class="section-title" data-i18n="title-home">/home/alexis/inicio</h1>
             
-            <div class="profile-container">
-                <img src="Archivos_extras/foto-perfil.jpeg" alt="Profile Foto" class="profile-pic" onerror="this.style.display='none'">                
+            <div class="profile-container" style="display: flex; gap: 20px; align-items: flex-start; margin-bottom: 30px; flex-wrap: wrap;">
+                <img src="Archivos_extras/foto-perfil.jpeg" alt="Foto de perfil" class="profile-pic" style="width:150px;height:150px;object-fit:cover;border:2px solid cyan;display:block;">
                 <div class="profile-info">
-                    <h2>Alexis Gethsemani</h2>
+                    <h2 style="margin-top: 0; color: var(--text-highlight);">Alexis Gethsemani Hernández Hernández</h2>
                     <p data-i18n="profile-status">Estado: [ ONLINE ]</p>
                     <p data-i18n="profile-location">Ubicación: Toluca, Estado de México.</p>
                     <p data-i18n="profile-occupation">Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.</p>
                 </div>
             </div>
-
-            <div class="cv-box">
-                <h2 data-i18n="cv-title">CURRICULUM VITAE</h2>
-                <h3>Alexis Gethsemani Hernández Hernández</h3>
-                <p><strong data-i18n="cv-profile-label">Perfil:</strong> <span data-i18n="cv-profile-text">Desarrollador en formación con pasión por la Arquitectura de Software y el Código Limpio.</span></p>
-                <hr style="border: 1px dashed var(--border-color); margin: 15px 0;">
-                <p><strong data-i18n="cv-skills-label">Habilidades Principales:</strong></p>
-                <ul>
-                    <li data-i18n="cv-skill-1">Lenguajes y BD: Java, MySQL.</li>
-                    <li data-i18n="cv-skill-2">Redes e Infraestructura: Cisco Packet Tracer.</li>
-                    <li data-i18n="cv-skill-3">Hardware e IoT: Arduino Mega, Simulación de circuitos.</li>
-                    <li data-i18n="cv-skill-4">Conceptos: Arquitectura de Software, Clean Code, Diseño de Compiladores.</li>
-                </ul>
-                <p><strong data-i18n="cv-goal-label">Objetivo:</strong> <span data-i18n="cv-goal-text">Crear soluciones robustas, escalables y mantenibles aplicando ingeniería sólida.</span></p>
-                
-                <button class="retro-btn no-print" onclick="window.print()" data-i18n="btn-download-cv">[ Descargar / Imprimir CV PDF ]</button>
-            </div>
+            
+            <p data-i18n="home-prompt">Para visualizar mi información profesional, ejecuta el siguiente comando o presiona el botón:</p>
+            <p style="color: var(--text-highlight); margin: 20px 0;">> view cv.exe</p>
+            
+            <button class="retro-btn" onclick="openCVModal()" data-i18n="btn-view-cv">[ Ver CV ]</button>
         </section>
 
         <section id="sobre-mi" class="page-section">
@@ -390,7 +454,7 @@
             <p>Reply from 192.168.1.100: bytes=32 time=2ms TTL=64</p>
             <br>
             <p><strong data-i18n="contact-github">GitHub:</strong> <a href="https://github.com/Azathoth-AGHH" target="_blank" style="color: var(--text-main);">github.com/Azathoth-AGHH</a></p>
-            <p><strong data-i18n="contact-email">Email:</strong> aleisgethsemani@gmail.com</p>
+            <p><strong data-i18n="contact-email">Email:</strong> (Coloca tu correo aquí)</p>
             
             <div style="border: 2px dashed var(--border-color); padding: 20px; margin-top: 40px; background: var(--nav-bg);">
                 <h3 data-i18n="guestbook-title">>>> GUESTBOOK / MENSAJE</h3>
@@ -400,7 +464,37 @@
 
     </div>
 
-    <!-- SCRIPT ÚNICO - ASEGÚRATE DE NO DUPLICAR ESTA SECCIÓN -->
+    <!-- MODAL DEL CV -->
+    <div id="cv-modal-overlay" class="modal-overlay" onclick="closeCVModal()"></div>
+    <div id="cv-modal" class="modal-window">
+        <div class="modal-header">
+            <span data-i18n="modal-title">Visor de CV.exe</span>
+            <button onclick="closeCVModal()">[X]</button>
+        </div>
+        
+        <div class="modal-content" id="print-cv-area">
+            <div class="print-only-header">
+                <h2>Alexis Gethsemani</h2>
+                <p data-i18n="profile-occupation">Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.</p>
+                <hr style="border: 1px dashed var(--border-color); margin: 15px 0;">
+            </div>
+            
+            <h2 data-i18n="cv-title" style="margin-bottom: 5px;">CURRICULUM VITAE</h2>
+            <p><strong data-i18n="cv-profile-label">Perfil:</strong> <span data-i18n="cv-profile-text">Desarrollador en formación con pasión por la Arquitectura de Software y el Código Limpio.</span></p>
+            <p><strong data-i18n="cv-skills-label">Habilidades Principales:</strong></p>
+            <ul>
+                <li data-i18n="cv-skill-1">Lenguajes y BD: Java, MySQL.</li>
+                <li data-i18n="cv-skill-2">Redes e Infraestructura: Cisco Packet Tracer.</li>
+                <li data-i18n="cv-skill-3">Hardware e IoT: Arduino Mega, Simulación de circuitos.</li>
+                <li data-i18n="cv-skill-4">Conceptos: Arquitectura de Software, Clean Code, Diseño de Compiladores.</li>
+            </ul>
+            <p><strong data-i18n="cv-goal-label">Objetivo:</strong> <span data-i18n="cv-goal-text">Crear soluciones robustas, escalables y mantenibles aplicando ingeniería sólida.</span></p>
+            
+            <button class="retro-btn no-print" onclick="window.print()" data-i18n="btn-download-cv" style="margin-top: 30px; display: block; width: 100%;">[ Descargar PDF / Imprimir ]</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT ÚNICO -->
     <script>
         const translations = {
             es: {
@@ -409,6 +503,10 @@
                 "nav-projects": "☆ Proyectos",
                 "nav-contacts": "☆ Contactos",
                 "title-home": "/home/alexis/inicio",
+                "home-welcome": "Bienvenido a la terminal de Alexis Gethsemani. Sistema en línea.",
+                "home-prompt": "Para visualizar mi información profesional, ejecuta el siguiente comando o presiona el botón:",
+                "btn-view-cv": "[ Ver CV ]",
+                "modal-title": "Visor de CV.exe",
                 "profile-status": "Estado: [ ONLINE ]",
                 "profile-location": "Ubicación: Toluca, Estado de México.",
                 "profile-occupation": "Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.",
@@ -422,7 +520,7 @@
                 "cv-skill-4": "Conceptos: Arquitectura de Software, Clean Code, Diseño de Compiladores.",
                 "cv-goal-label": "Objetivo:",
                 "cv-goal-text": "Crear soluciones robustas, escalables y mantenibles aplicando ingeniería sólida.",
-                "btn-download-cv": "[ Descargar / Imprimir CV PDF ]",
+                "btn-download-cv": "[ Descargar PDF / Imprimir ]",
                 "title-about": "/home/alexis/sobre_mi.txt",
                 "about-p1": "¡Hola Mundo! Soy Alexis Gethsemani.",
                 "about-p2": "Tengo una gran fascinación por entender cómo funcionan las cosas por debajo del capó. Me apasiona escribir código limpio y me interesa profundamente la Arquitectura de Software. Creo firmemente que un buen sistema debe ser escalable, robusto y fácil de entender.",
@@ -446,6 +544,10 @@
                 "nav-projects": "☆ Projects",
                 "nav-contacts": "☆ Contacts",
                 "title-home": "/home/alexis/home",
+                "home-welcome": "Welcome to Alexis Gethsemani's terminal. System online.",
+                "home-prompt": "To view my professional information, run the following command or press the button:",
+                "btn-view-cv": "[ View CV ]",
+                "modal-title": "CV_Viewer.exe",
                 "profile-status": "Status: [ ONLINE ]",
                 "profile-location": "Location: Toluca, State of Mexico.",
                 "profile-occupation": "Occupation: Software Engineering Student (5th Semester) at Centro Universitario UAEMéx Tianguistenco.",
@@ -459,7 +561,7 @@
                 "cv-skill-4": "Concepts: Software Architecture, Clean Code, Compiler Design.",
                 "cv-goal-label": "Goal:",
                 "cv-goal-text": "To create robust, scalable, and maintainable solutions by applying solid engineering principles.",
-                "btn-download-cv": "[ Download / Print CV PDF ]",
+                "btn-download-cv": "[ Download PDF / Print ]",
                 "title-about": "/home/alexis/about_me.txt",
                 "about-p1": "Hello World! I'm Alexis Gethsemani.",
                 "about-p2": "I have a great fascination for understanding how things work under the hood. I am passionate about writing clean code and deeply interested in Software Architecture. I firmly believe a good system should be scalable, robust, and easy to understand.",
@@ -539,6 +641,18 @@
             }
         }
 
+        /* Funciones del Modal CV */
+        function openCVModal() {
+            document.getElementById('cv-modal').style.display = 'block';
+            document.getElementById('cv-modal-overlay').style.display = 'block';
+        }
+
+        function closeCVModal() {
+            document.getElementById('cv-modal').style.display = 'none';
+            document.getElementById('cv-modal-overlay').style.display = 'none';
+        }
+
+        /* Funciones de Proyectos */
         function showProjectDetails(id) {
             currentProjectOpen = id;
             const data = projectsData[id];
