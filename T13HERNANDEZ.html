@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexis Gethsemani - Terminal Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================================================================
+           VARIABLES Y ESTILOS BASE (MODO OSCURO POR DEFECTO)
+           ================================================================== */
+        :root {
+            --bg-color: #000000;
+            --text-main: #00ffff; /* Cyan */
+            --text-alt: #ffffff;  /* Blanco */
+            --text-highlight: #ffff00; /* Amarillo */
+            --border-color: #333333;
+            --nav-bg: #050505;
+            /* Fondo 100% sólido para ocultar las estrellas detrás */
+            --card-bg: #111111; 
+        }
+
+        /* MODO CLARO */
+        :root.light-mode {
+            --bg-color: #008b8b; /* Fondo azul cian */
+            --text-main: #000080; /* Azul marino clásico */
+            --text-alt: #000000;  /* Negro */
+            --text-highlight: #800000; /* Rojo oscuro */
+            --border-color: #999999;
+            --nav-bg: #e0e0e0;
+            /* Fondo 100% sólido blanco/hielo para ocultar las estrellas */
+            --card-bg: #ffffff; 
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 80px; /* Espacio para la barra de navegacion fija */
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* Lienzo para la animación de estrellas de fondo */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Mantiene las estrellas estrictamente en el fondo */
+        }
+
+        /* ==================================================================
+           BARRA DE NAVEGACIÓN SUPERIOR
+           ================================================================== */
+        #top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--nav-bg);
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .nav-center a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.3em;
+            transition: color 0.2s;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .nav-center a:hover, .nav-center a.active {
+            color: var(--text-highlight);
+            text-shadow: 0 0 5px var(--text-highlight);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button.control-btn {
+            background-color: transparent;
+            color: var(--text-highlight);
+            border: 1px solid var(--text-highlight);
+            font-family: 'VT323', monospace;
+            font-size: 1.1em;
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button.control-btn:hover {
+            background-color: var(--text-highlight);
+            color: var(--bg-color);
+        }
+
+        /* ==================================================================
+           CONTENEDOR PRINCIPAL
+           ================================================================== */
+        #main-container {
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+            padding: 30px;
+            background-color: var(--card-bg); /* Opaco al 100% */
+            border: 2px solid var(--border-color);
+            min-height: calc(100vh - 120px);
+            transition: background-color 0.3s, border-color 0.3s;
+            position: relative;
+            z-index: 1; 
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .section-title {
+            color: var(--text-alt);
+            border-bottom: 2px dashed var(--text-main);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        /* ==================================================================
+           ESTILOS: INICIO (PERFIL Y CV)
+           ================================================================== */
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border: 4px solid var(--text-main);
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .profile-info h2 {
+            margin: 0 0 10px 0;
+            color: var(--text-highlight);
+            font-size: 1.8em;
+        }
+
+        .cv-box {
+            border: 2px dotted var(--text-alt);
+            padding: 25px;
+            background-color: var(--nav-bg);
+        }
+
+        button.retro-btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--text-main);
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        button.retro-btn:hover {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        /* ==================================================================
+           ESTILOS: PROYECTOS
+           ================================================================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            border: 2px solid var(--border-color);
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            background: var(--nav-bg);
+        }
+
+        .project-card:hover {
+            border-color: var(--text-highlight);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        #project-details {
+            display: none;
+        }
+
+        .project-detail-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border: 2px solid var(--text-main);
+            margin: 20px 0;
+        }
+
+        /* ==================================================================
+           IMPRESIÓN (SOLO CV)
+           ================================================================== */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                font-family: 'Courier New', Courier, monospace !important;
+                padding: 0 !important;
+            }
+            
+            #top-nav, #starfield, .profile-container, .section-title, .retro-btn {
+                display: none !important;
+            }
+
+            #main-container {
+                border: none;
+                background: transparent;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .cv-box {
+                border: none;
+                background: transparent;
+                padding: 0;
+            }
+            
+            .cv-box * {
+                color: black !important;
+                text-shadow: none !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-center { gap: 15px; font-size: 1em; }
+            .nav-controls { flex-direction: column; gap: 5px; }
+            button.control-btn { font-size: 0.9em; padding: 4px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FONDO ANIMADO -->
+    <canvas id="starfield"></canvas>
+
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
+    <nav id="top-nav">
+        <div style="width: 80px;" class="nav-spacer no-print"></div> 
+        
+        <div class="nav-center">
+            <a onclick="navigate('inicio')" id="link-inicio" data-i18n="nav-home">☆ Inicio</a>
+            <a onclick="navigate('sobre-mi')" id="link-sobre-mi" data-i18n="nav-about">☆ Sobre mí</a>
+            <a onclick="navigate('proyectos')" id="link-proyectos" data-i18n="nav-projects">☆ Proyectos</a>
+            <a onclick="navigate('contactos')" id="link-contactos" data-i18n="nav-contacts">☆ Contactos</a>
+        </div>
+
+        <div class="nav-controls">
+            <button class="control-btn" id="theme-toggle" onclick="toggleTheme()">[ ☀/☾ Tema ]</button>
+            <button class="control-btn" id="lang-toggle" onclick="toggleLanguage()">[ ES / EN ]</button>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL OPACIDAD 1.0 -->
+    <div id="main-container">
+        
+        <section id="inicio" class="page-section">
+            <h1 class="section-title" data-i18n="title-home">/home/alexis/inicio</h1>
+            
+            <div class="profile-container">
+                <img src="foto_perfil.jpg" alt="Profile Foto" class="profile-pic" onerror="this.src='https://placehold.co/180x180/222/0ff?text=FOTO'">
+                
+                <div class="profile-info">
+                    <h2>Alexis Gethsemani</h2>
+                    <p data-i18n="profile-status">Estado: [ ONLINE ]</p>
+                    <p data-i18n="profile-location">Ubicación: Toluca, Estado de México.</p>
+                    <p data-i18n="profile-occupation">Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.</p>
+                </div>
+            </div>
+
+            <div class="cv-box">
+                <h2 data-i18n="cv-title">CURRICULUM VITAE</h2>
+                <h3>Alexis Gethsemani Hernández Hernández</h3>
+                <p><strong data-i18n="cv-profile-label">Perfil:</strong> <span data-i18n="cv-profile-text">Desarrollador en formación con pasión por la Arquitectura de Software y el Código Limpio.</span></p>
+                <hr style="border: 1px dashed var(--border-color); margin: 15px 0;">
+                <p><strong data-i18n="cv-skills-label">Habilidades Principales:</strong></p>
+                <ul>
+                    <li data-i18n="cv-skill-1">Lenguajes y BD: Java, MySQL.</li>
+                    <li data-i18n="cv-skill-2">Redes e Infraestructura: Cisco Packet Tracer.</li>
+                    <li data-i18n="cv-skill-3">Hardware e IoT: Arduino Mega, Simulación de circuitos.</li>
+                    <li data-i18n="cv-skill-4">Conceptos: Arquitectura de Software, Clean Code, Diseño de Compiladores.</li>
+                </ul>
+                <p><strong data-i18n="cv-goal-label">Objetivo:</strong> <span data-i18n="cv-goal-text">Crear soluciones robustas, escalables y mantenibles aplicando ingeniería sólida.</span></p>
+                
+                <button class="retro-btn no-print" onclick="window.print()" data-i18n="btn-download-cv">[ Descargar / Imprimir CV PDF ]</button>
+            </div>
+        </section>
+
+        <section id="sobre-mi" class="page-section">
+            <h1 class="section-title" data-i18n="title-about">/home/alexis/sobre_mi.txt</h1>
+            <p data-i18n="about-p1">¡Hola Mundo! Soy Alexis Gethsemani.</p>
+            <p data-i18n="about-p2">Tengo una gran fascinación por entender cómo funcionan las cosas por debajo del capó. Me apasiona escribir código limpio y me interesa profundamente la Arquitectura de Software. Creo firmemente que un buen sistema debe ser escalable, robusto y fácil de entender.</p>
+            <p data-i18n="about-p3">A lo largo de mi formación como Ingeniero de Software, he trabajado con herramientas variadas: desde el diseño de bases de datos relacionales con MySQL y la creación de aplicaciones en Java, hasta el diseño y simulación de topologías de red complejas usando Cisco Packet Tracer.</p>
+            <p data-i18n="about-p4">Además, me gusta llevar el código al mundo físico mediante hardware como el Arduino Mega. Cuando no estoy programando, me gusta investigar tecnologías clásicas (como puedes ver en el diseño de esta web) y estudiar nuevas metodologías de desarrollo.</p>
+        </section>
+
+        <section id="proyectos" class="page-section">
+            <h1 class="section-title" data-i18n="title-projects">/home/alexis/proyectos/</h1>
+            
+            <div id="projects-grid" class="projects-grid">
+                <div class="project-card" onclick="showProjectDetails('optem')">
+                    <img src="https://placehold.co/300x160/111/0ff?text=OPTEM.exe" alt="Proyecto OPTEM">
+                    <h3>OPTEM</h3>
+                    <p data-i18n="desc-optem-short">Agenda académica en JavaFX.</p>
+                </div>
+                <div class="project-card" onclick="showProjectDetails('joda')">
+                    <img src="https://placehold.co/300x160/111/0ff?text=JODA.exe" alt="Compilador JODA">
+                    <h3>Compilador_JODA</h3>
+                    <p data-i18n="desc-joda-short">Analizador léxico y sintáctico.</p>
+                </div>
+                <div class="project-card" onclick="showProjectDetails('redes')">
+                    <img src="https://placehold.co/300x160/111/0ff?text=PACKET_TRACER" alt="Redes Cisco">
+                    <h3 data-i18n="title-redes">Topología de Red</h3>
+                    <p data-i18n="desc-redes-short">Diseño y simulación en Cisco PT.</p>
+                </div>
+            </div>
+
+            <div id="project-details">
+                <button class="retro-btn" onclick="hideProjectDetails()" id="btn-back-projects" data-i18n="btn-back-projects">[ < Volver a Proyectos ]</button>
+                <h2 id="detail-title" style="color: var(--text-highlight); margin-top: 25px; font-size: 1.8em;"></h2>
+                <img id="detail-img" src="" alt="Detalle del proyecto" class="project-detail-img">
+                <div id="detail-desc"></div>
+            </div>
+        </section>
+
+        <section id="contactos" class="page-section">
+            <h1 class="section-title" data-i18n="title-contacts">/home/alexis/contactos</h1>
+            <p>Pinging alexis_host [192.168.1.100] with 32 bytes of data:</p>
+            <p>Reply from 192.168.1.100: bytes=32 time=2ms TTL=64</p>
+            <br>
+            <p><strong data-i18n="contact-github">GitHub:</strong> <a href="https://github.com/Azathoth-AGHH" target="_blank" style="color: var(--text-main);">github.com/Azathoth-AGHH</a></p>
+            <p><strong data-i18n="contact-email">Email:</strong> (Coloca tu correo aquí)</p>
+            
+            <div style="border: 2px dashed var(--border-color); padding: 20px; margin-top: 40px; background: var(--nav-bg);">
+                <h3 data-i18n="guestbook-title">>>> GUESTBOOK / MENSAJE</h3>
+                <p><i data-i18n="guestbook-msg">[ Formulario deshabilitado por mantenimiento del servidor ]</i></p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SCRIPT ÚNICO - ASEGÚRATE DE NO DUPLICAR ESTA SECCIÓN -->
+    <script>
+        const translations = {
+            es: {
+                "nav-home": "☆ Inicio",
+                "nav-about": "☆ Sobre mí",
+                "nav-projects": "☆ Proyectos",
+                "nav-contacts": "☆ Contactos",
+                "title-home": "/home/alexis/inicio",
+                "profile-status": "Estado: [ ONLINE ]",
+                "profile-location": "Ubicación: Toluca, Estado de México.",
+                "profile-occupation": "Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.",
+                "cv-title": "CURRICULUM VITAE",
+                "cv-profile-label": "Perfil:",
+                "cv-profile-text": "Desarrollador en formación con pasión por la Arquitectura de Software y el Código Limpio.",
+                "cv-skills-label": "Habilidades Principales:",
+                "cv-skill-1": "Lenguajes y BD: Java, MySQL.",
+                "cv-skill-2": "Redes e Infraestructura: Cisco Packet Tracer.",
+                "cv-skill-3": "Hardware e IoT: Arduino Mega, Simulación de circuitos.",
+                "cv-skill-4": "Conceptos: Arquitectura de Software, Clean Code, Diseño de Compiladores.",
+                "cv-goal-label": "Objetivo:",
+                "cv-goal-text": "Crear soluciones robustas, escalables y mantenibles aplicando ingeniería sólida.",
+                "btn-download-cv": "[ Descargar / Imprimir CV PDF ]",
+                "title-about": "/home/alexis/sobre_mi.txt",
+                "about-p1": "¡Hola Mundo! Soy Alexis Gethsemani.",
+                "about-p2": "Tengo una gran fascinación por entender cómo funcionan las cosas por debajo del capó. Me apasiona escribir código limpio y me interesa profundamente la Arquitectura de Software. Creo firmemente que un buen sistema debe ser escalable, robusto y fácil de entender.",
+                "about-p3": "A lo largo de mi formación como Ingeniero de Software, he trabajado con herramientas variadas: desde el diseño de bases de datos relacionales con MySQL y la creación de aplicaciones en Java, hasta el diseño y simulación de topologías de red complejas usando Cisco Packet Tracer.",
+                "about-p4": "Además, me gusta llevar el código al mundo físico mediante hardware como el Arduino Mega. Cuando no estoy programando, me gusta investigar tecnologías clásicas (como puedes ver en el diseño de esta web) y estudiar nuevas metodologías de desarrollo.",
+                "title-projects": "/home/alexis/proyectos/",
+                "desc-optem-short": "Agenda académica en JavaFX.",
+                "desc-joda-short": "Analizador léxico y sintáctico.",
+                "title-redes": "Topología de Red",
+                "desc-redes-short": "Diseño y simulación en Cisco PT.",
+                "btn-back-projects": "[ < Volver a Proyectos ]",
+                "title-contacts": "/home/alexis/contactos",
+                "contact-github": "GitHub:",
+                "contact-email": "Email:",
+                "guestbook-title": ">>> GUESTBOOK / MENSAJE",
+                "guestbook-msg": "[ Formulario deshabilitado por mantenimiento del servidor ]",
+            },
+            en: {
+                "nav-home": "☆ Home",
+                "nav-about": "☆ About me",
+                "nav-projects": "☆ Projects",
+                "nav-contacts": "☆ Contacts",
+                "title-home": "/home/alexis/home",
+                "profile-status": "Status: [ ONLINE ]",
+                "profile-location": "Location: Toluca, State of Mexico.",
+                "profile-occupation": "Occupation: Software Engineering Student (5th Semester) at Centro Universitario UAEMéx Tianguistenco.",
+                "cv-title": "CURRICULUM VITAE",
+                "cv-profile-label": "Profile:",
+                "cv-profile-text": "Developer in training with a passion for Software Architecture and Clean Code.",
+                "cv-skills-label": "Main Skills:",
+                "cv-skill-1": "Languages & DB: Java, MySQL.",
+                "cv-skill-2": "Networking & Infra: Cisco Packet Tracer.",
+                "cv-skill-3": "Hardware & IoT: Arduino Mega, Circuit Simulation.",
+                "cv-skill-4": "Concepts: Software Architecture, Clean Code, Compiler Design.",
+                "cv-goal-label": "Goal:",
+                "cv-goal-text": "To create robust, scalable, and maintainable solutions by applying solid engineering principles.",
+                "btn-download-cv": "[ Download / Print CV PDF ]",
+                "title-about": "/home/alexis/about_me.txt",
+                "about-p1": "Hello World! I'm Alexis Gethsemani.",
+                "about-p2": "I have a great fascination for understanding how things work under the hood. I am passionate about writing clean code and deeply interested in Software Architecture. I firmly believe a good system should be scalable, robust, and easy to understand.",
+                "about-p3": "Throughout my training as a Software Engineer, I have worked with various tools: from designing relational databases with MySQL and creating Java applications, to designing and simulating complex network topologies using Cisco Packet Tracer.",
+                "about-p4": "Furthermore, I like bridging code to the physical world using hardware like the Arduino Mega. When I'm not programming, I enjoy researching classic technologies (as you can see in the design of this web) and studying new development methodologies.",
+                "title-projects": "/home/alexis/projects/",
+                "desc-optem-short": "Academic planner in JavaFX.",
+                "desc-joda-short": "Lexical and syntactic analyzer.",
+                "title-redes": "Network Topology",
+                "desc-redes-short": "Design and simulation in Cisco PT.",
+                "btn-back-projects": "[ < Back to Projects ]",
+                "title-contacts": "/home/alexis/contacts",
+                "contact-github": "GitHub:",
+                "contact-email": "Email:",
+                "guestbook-title": ">>> GUESTBOOK / MESSAGE",
+                "guestbook-msg": "[ Form disabled due to server maintenance ]",
+            }
+        };
+
+        const projectsData = {
+            'optem': {
+                title: 'OPTEM.exe',
+                img: 'https://placehold.co/800x400/111/0ff?text=Captura+de+OPTEM',
+                desc_es: '<p>Una agenda académica virtual de escritorio construida con <strong>Java y JavaFX</strong>. Integra temporizadores Pomodoro para mejorar la productividad estudiantil, permitiendo gestionar tareas, horarios y tiempos de estudio de manera eficiente bajo un entorno de interfaz gráfica limpia.</p>',
+                desc_en: '<p>A virtual desktop academic planner built with <strong>Java and JavaFX</strong>. It integrates Pomodoro timers to improve student productivity, allowing efficient management of tasks, schedules, and study times under a clean graphical interface environment.</p>'
+            },
+            'joda': {
+                title: 'Compilador_JODA.exe',
+                img: 'https://placehold.co/800x400/111/0ff?text=Captura+de+JODA',
+                desc_es: '<p>Proyecto profundo sobre diseño de compiladores. Implementa un analizador léxico, sintáctico y semántico. Este proyecto fue clave para comprender cómo se traducen y procesan los lenguajes de programación a bajo nivel.</p>',
+                desc_en: '<p>Deep project on compiler design. Implements a lexical, syntactic, and semantic analyzer. This project was key to understanding how programming languages are translated and processed at a low level.</p>'
+            },
+            'redes': {
+                title: 'Topología_Cisco.sys',
+                img: 'https://placehold.co/800x400/111/0ff?text=PACKET+TRACER',
+                desc_es: '<p>Diseño, configuración y simulación de redes complejas utilizando <strong>Cisco Packet Tracer</strong>. Implementación de protocolos de enrutamiento, VLANs y seguridad básica en topologías estructuradas.</p>',
+                desc_en: '<p>Design, configuration, and simulation of complex networks using <strong>Cisco Packet Tracer</strong>. Implementation of routing protocols, VLANs, and basic security in structured topologies.</p>'
+            }
+        };
+
+        let currentLang = 'es';
+        let currentProjectOpen = null;
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            document.getElementById('lang-toggle').innerText = currentLang === 'es' ? '[ EN / ES ]' : '[ ES / EN ]';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            if (currentProjectOpen) {
+                showProjectDetails(currentProjectOpen);
+            }
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light-mode');
+        }
+
+        function navigate(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.querySelectorAll('.nav-center a').forEach(a => {
+                a.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).style.display = 'block';
+            document.getElementById('link-' + pageId).classList.add('active');
+
+            if (pageId !== 'proyectos') {
+                hideProjectDetails();
+            }
+        }
+
+        function showProjectDetails(id) {
+            currentProjectOpen = id;
+            const data = projectsData[id];
+            if(!data) return;
+
+            document.getElementById('projects-grid').style.display = 'none';
+            document.getElementById('project-details').style.display = 'block';
+
+            document.getElementById('detail-title').innerText = "> " + data.title;
+            document.getElementById('detail-img').src = data.img;
+            document.getElementById('detail-desc').innerHTML = currentLang === 'es' ? data.desc_es : data.desc_en;
+        }
+
+        function hideProjectDetails() {
+            currentProjectOpen = null;
+            document.getElementById('projects-grid').style.display = 'grid';
+            document.getElementById('project-details').style.display = 'none';
+        }
+
+        /* CONFIGURACIÓN ÚNICA DEL CANVAS */
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const numStars = 150;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    z: Math.random() * canvas.width,
+                    size: Math.random() * 1.5
+                });
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const isLightMode = document.documentElement.classList.contains('light-mode');
+            ctx.fillStyle = isLightMode ? '#ffff00' : '#ffffff';
+
+            const speed = 1.5;
+
+            for (let i = 0; i < numStars; i++) {
+                let star = stars[i];
+                star.z -= speed;
+
+                if (star.z <= 0) {
+                    star.z = canvas.width;
+                    star.x = Math.random() * canvas.width;
+                    star.y = Math.random() * canvas.height;
+                }
+
+                let k = 128.0 / star.z;
+                let px = (star.x - canvas.width / 2) * k + canvas.width / 2;
+                let py = (star.y - canvas.height / 2) * k + canvas.height / 2;
+
+                if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+                    let size = (1 - star.z / canvas.width) * 3;
+                    ctx.beginPath();
+                    ctx.arc(px, py, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initStars();
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            navigate('inicio');
+            resizeCanvas();
+            initStars();
+            animateStars();
+        });
+
+    </script>
+</body>
+</html>
