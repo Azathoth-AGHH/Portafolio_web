@@ -74,6 +74,7 @@
             padding: 10px 20px;
             z-index: 100;
             text-shadow: var(--text-shadow);
+            backdrop-filter: none; /* Sin blur */
         }
 
         .nav-left {
@@ -107,6 +108,11 @@
             color: var(--highlight);
         }
 
+        .nav-controls {
+            display: flex;
+            gap: 10px;
+        }
+
         .nav-controls button {
             background: transparent;
             color: var(--highlight);
@@ -115,7 +121,6 @@
             cursor: pointer;
             font-family: inherit;
             font-size: 20px;
-            margin-left: 10px;
             text-shadow: var(--text-shadow);
             transition: all 0.2s;
         }
@@ -274,6 +279,15 @@
             outline: none;
             border-color: var(--highlight);
         }
+        
+        #form-status {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid var(--highlight);
+            color: var(--highlight);
+            background: var(--btn-bg);
+        }
 
         /* =========================================================
            MODAL DEL CV
@@ -353,6 +367,7 @@
                 color: #000 !important;
                 background: #fff !important;
                 text-shadow: none !important;
+                border-color: #000 !important;
             }
             #cv-modal {
                 position: absolute;
@@ -375,7 +390,7 @@
     <!-- NAVEGACIÓN -->
     <nav id="top-nav" class="no-print">
         <div class="nav-left">
-            <img src="Archivos_extras/logo.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+            <img src="Archivos_extras/logo.jpg" alt="Logo" class="nav-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100%\' height=\'100%\' fill=\'cyan\'/></svg>'">
             <div class="nav-links">
                 <a onclick="navigate('inicio')" id="link-inicio" class="active">☆ <span data-i18n="nav-home">Inicio</span></a>
                 <a onclick="navigate('sobre-mi')" id="link-sobre-mi">☆ <span data-i18n="nav-about">Sobre mí</span></a>
@@ -396,13 +411,15 @@
         <section id="inicio" class="page-section active">
             <h1 class="section-title" data-i18n="title-home">/home/alexis/inicio</h1>
             
-            <div class='profile-container' style='display:flex; gap:20px; flex-wrap:wrap; margin-bottom: 20px;'>
-                <img src='Archivos_extras/foto-perfil.jpeg' alt='Profile Foto' style='width:150px; height:150px; border:2px solid var(--text-color); object-fit:cover;'>
+            <div class='profile-container' style='display:flex; gap:20px; flex-wrap:wrap; margin-bottom: 20px; align-items: center;'>
+                <img src='Archivos_extras/foto-perfil.jpeg' alt='Profile Foto' style='width:150px; height:150px; border:2px solid var(--text-color); object-fit:cover;' onerror="this.style.display='none'">
                 <div style='flex:1; line-height:1.6;'>
-                    <h2 style="color: var(--highlight);">Alexis Gethsemani Hernández Hernández</h2>
-                    <p data-i18n='profile-status'>Estado: [ ONLINE ]</p><br>
+                    <h2 style="color: var(--highlight);">Ing. Alexis Gethsemani Hernández Hernández</h2>
+                    <!-- Mensaje grande de bienvenida -->
+                    <h2 style="font-size: 2.5em; text-transform: uppercase;" data-i18n="welcome-text">BIENVENIDOS A MI PORTAL WEB</h2>
+                    <br>
                     <p data-i18n='profile-location'>Ubicación: Toluca, Estado de México.</p><br>
-                    <p data-i18n='profile-occupation'>Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.</p>
+                    <p data-i18n='profile-occupation'>Ocupación: Ingeniero de Software</p>
                 </div>
             </div>
 
@@ -471,11 +488,11 @@
                 </ul>
             </div>
 
-            <!-- Formulario Simulado -->
+            <!-- Formulario Simulado sin Alert() -->
             <div class="contact-form">
                 <p style="margin-bottom: 20px; color: var(--highlight);" data-i18n="form-title">> ENVIAR MENSAJE AL SERVIDOR (SIMULACIÓN)</p>
                 
-                <form onsubmit="event.preventDefault(); alert(currentLang === 'es' ? 'Mensaje enviado. (Simulación)' : 'Message sent. (Simulation)');">
+                <form onsubmit="submitForm(event)">
                     <div class="form-group">
                         <label data-i18n="form-email">Correo:</label>
                         <input type="email" placeholder="usuario@terminal.com" required>
@@ -495,6 +512,7 @@
                         <button type="submit" class="retro-btn" data-i18n="form-send">[ Ejecutar Envío ]</button>
                     </div>
                 </form>
+                <div id="form-status">Mensaje enviado.</div>
             </div>
         </section>
 
@@ -556,7 +574,7 @@
                 
                 // Inicio
                 "title-home": "/home/alexis/inicio",
-                "profile-status": "Estado: [ ONLINE ]",
+                "welcome-text": "BIENVENIDOS A MI PORTAL WEB",
                 "profile-location": "Ubicación: Toluca, Estado de México.",
                 "profile-occupation": "Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.",
                 "btn-view-cv": "[ Ver CV ]",
@@ -592,6 +610,7 @@
                 "form-subject": "Asunto:",
                 "form-msg": "Mensaje:",
                 "form-send": "[ Ejecutar Envío ]",
+                "form-success": "> DATOS TRANSMITIDOS CON ÉXITO.",
                 
                 // Modal CV
                 "cv-window-title": "C:\\Documentos\\Curriculum_Alexis.pdf",
@@ -618,7 +637,7 @@
                 
                 // Inicio
                 "title-home": "/home/alexis/home",
-                "profile-status": "Status: [ ONLINE ]",
+                "welcome-text": "WELCOME TO MY WEB PORTAL",
                 "profile-location": "Location: Toluca, State of Mexico.",
                 "profile-occupation": "Occupation: Software Engineering Student (5th Semester) at Centro Universitario UAEMéx Tianguistenco.",
                 "btn-view-cv": "[ View CV ]",
@@ -654,6 +673,7 @@
                 "form-subject": "Subject:",
                 "form-msg": "Message:",
                 "form-send": "[ Execute Send ]",
+                "form-success": "> DATA TRANSMITTED SUCCESSFULLY.",
                 
                 // Modal CV
                 "cv-window-title": "C:\\Documents\\Alexis_Resume.pdf",
@@ -692,7 +712,7 @@
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key]; // Usamos innerHTML por si hay etiquetas fuertes
+                    el.innerHTML = translations[currentLang][key];
                 }
             });
 
@@ -700,11 +720,15 @@
             if(currentProjectOpen) {
                 document.getElementById('detail-desc').innerText = translations[currentLang]['desc-' + currentProjectOpen];
                 
-                // Actualizar título del proyecto según idioma
                 let title = currentProjectOpen === 'optem' ? 'OPTEM' : 
                             currentProjectOpen === 'joda' ? 'Compilador JODA' : 
                             (currentLang === 'es' ? 'Topologías de Red' : 'Network Topologies');
                 document.getElementById('detail-title').innerText = "> " + title;
+            }
+
+            // Actualizar mensaje de éxito del formulario si está visible
+            if(document.getElementById('form-status').style.display === 'block') {
+                document.getElementById('form-status').innerText = translations[currentLang]['form-success'];
             }
         }
 
@@ -716,16 +740,12 @@
         // NAVEGACIÓN SPA (Single Page Application)
         // =========================================================
         function navigate(pageId) {
-            // Ocultar todas las secciones
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            // Mostrar la seleccionada
             document.getElementById(pageId).classList.add('active');
             
-            // Actualizar estado activo en la barra de navegación
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             document.getElementById('link-' + pageId).classList.add('active');
             
-            // Si salimos de proyectos, cerrar el detalle por defecto
             if(pageId !== 'proyectos') {
                 closeProject(); 
             }
@@ -739,7 +759,6 @@
             document.getElementById('projects-list').style.display = 'none';
             document.getElementById('project-details').style.display = 'block';
             
-            // Determinar título
             let title = id === 'optem' ? 'OPTEM' : 
                         id === 'joda' ? 'Compilador JODA' : 
                         (currentLang === 'es' ? 'Topologías de Red' : 'Network Topologies');
@@ -753,6 +772,21 @@
             currentProjectOpen = null;
             document.getElementById('projects-list').style.display = 'grid';
             document.getElementById('project-details').style.display = 'none';
+        }
+
+        // =========================================================
+        // LÓGICA DEL FORMULARIO DE CONTACTO (Sin alerts)
+        // =========================================================
+        function submitForm(event) {
+            event.preventDefault();
+            const statusBox = document.getElementById('form-status');
+            statusBox.innerText = translations[currentLang]['form-success'];
+            statusBox.style.display = 'block';
+            
+            // Ocultar el mensaje después de 3 segundos
+            setTimeout(() => {
+                statusBox.style.display = 'none';
+            }, 3000);
         }
 
         // =========================================================
@@ -774,16 +808,15 @@
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
-        const numStars = 400; // Gran densidad para el efecto clásico
+        const numStars = 400; // 400 estrellas moviéndose
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas(); // Inicializar tamaño
+        resizeCanvas();
 
-        // Generar estrellas iniciales
         for (let i = 0; i < numStars; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
@@ -793,40 +826,34 @@
         }
 
         function drawStars() {
-            // Limpia el canvas en cada frame
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Detecta si el modo claro está activo para pintar estrellas amarillas o blancas
             const isLight = document.documentElement.classList.contains('light-mode');
             ctx.fillStyle = isLight ? '#ffff00' : '#ffffff'; 
 
             for (let i = 0; i < numStars; i++) {
                 let star = stars[i];
-                star.z -= 2; // Velocidad del "viaje"
+                star.z -= 2; 
                 
-                // Si la estrella pasa la cámara, reiniciarla al fondo
                 if (star.z <= 0) {
                     star.x = Math.random() * canvas.width;
                     star.y = Math.random() * canvas.height;
                     star.z = canvas.width;
                 }
 
-                // Proyección 3D a 2D
                 let x = (star.x - canvas.width / 2) * (canvas.width / star.z) + canvas.width / 2;
                 let y = (star.y - canvas.height / 2) * (canvas.width / star.z) + canvas.height / 2;
-                let radius = (canvas.width / star.z) * 1.5; // El tamaño aumenta al acercarse
+                let radius = (canvas.width / star.z) * 1.5; 
 
-                // Dibujar solo si está dentro de la pantalla
                 if(x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
                     ctx.beginPath();
                     ctx.arc(x, y, radius, 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
-            requestAnimationFrame(drawStars); // Bucle infinito
+            requestAnimationFrame(drawStars);
         }
         
-        // Iniciar la animación
         drawStars();
 
     </script>
