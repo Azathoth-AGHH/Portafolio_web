@@ -7,29 +7,26 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-        /* =========================================================
-           VARIABLES DE TEMA
-           ========================================================= */
         :root {
             --bg-color: #000000;
             --text-color: #00ffff;
-            --highlight: #ffff00;
-            --border-color: #444444;
-            --container-bg: rgba(0, 0, 0, 0.2); 
-            --text-shadow: 1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000; 
-            --btn-bg: #111111;
-            --modal-bg: #000000;
+            --highlight: #eeff00;
+            --border-color: #444;
+            --container-bg: rgba(0, 0, 0, 0.4); 
+            --text-shadow: 1px 1px 2px #000; 
+            --btn-bg: #111;
+            --modal-bg: #000;
         }
 
         :root.light-mode {
             --bg-color: #00ffff; 
-            --text-color: #000000; 
-            --highlight: #00008b; 
-            --border-color: #555555;
-            --container-bg: rgba(255, 255, 255, 0.3); 
-            --text-shadow: 1px 1px 2px #fff, -1px -1px 2px #fff, 1px -1px 2px #fff, -1px 1px 2px #fff; 
-            --btn-bg: #eeeeee;
-            --modal-bg: #ffffff;
+            --text-color: #000000;
+            --highlight: #00008b;
+            --border-color: #999;
+            --container-bg: rgba(255, 255, 255, 0.5); 
+            --text-shadow: 1px 1px 2px #fff; 
+            --btn-bg: #eee;
+            --modal-bg: #fff;
         }
 
         * {
@@ -42,14 +39,12 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'VT323', monospace;
-            font-size: 22px;
+            font-size: 20px;
             overflow-x: hidden;
             transition: background-color 0.3s;
         }
 
-        /* =========================================================
-           CANVAS FONDO (ESTRELLAS)
-           ========================================================= */
+        /* Canvas de estrellas al fondo absoluto */
         #space-canvas {
             position: fixed;
             top: 0;
@@ -59,22 +54,19 @@
             z-index: -1; 
         }
 
-        /* =========================================================
-           BARRA DE NAVEGACIÓN SUPERIOR
-           ========================================================= */
+        /* Barra de navegación superior */
         #top-nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: var(--container-bg);
-            border-bottom: 2px solid var(--border-color);
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
             z-index: 100;
             text-shadow: var(--text-shadow);
-            backdrop-filter: none; /* Sin blur */
         }
 
         .nav-left {
@@ -83,12 +75,13 @@
             gap: 20px;
         }
 
+        /* LOGO */
         .nav-logo {
-            height: 40px;
             width: 40px;
-            object-fit: cover;
+            height: 40px;
             border: 2px solid var(--text-color);
-            background-color: var(--bg-color);
+            object-fit: cover;
+            border-radius: 4px;
         }
 
         .nav-links {
@@ -101,48 +94,34 @@
             text-decoration: none;
             cursor: pointer;
             transition: color 0.2s;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .nav-links a:hover, .nav-links a.active {
             color: var(--highlight);
         }
 
-        .nav-controls {
-            display: flex;
-            gap: 10px;
-        }
-
         .nav-controls button {
             background: transparent;
             color: var(--highlight);
             border: 1px solid var(--border-color);
-            padding: 4px 10px;
+            padding: 2px 8px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 20px;
+            font-size: 18px;
+            margin-left: 10px;
             text-shadow: var(--text-shadow);
-            transition: all 0.2s;
         }
 
-        .nav-controls button:hover {
-            background-color: var(--highlight);
-            color: var(--bg-color);
-            text-shadow: none;
-        }
-
-        /* =========================================================
-           CONTENEDOR PRINCIPAL
-           ========================================================= */
+        /* Contenedor principal sin bordes y más ancho */
         #main-container {
-            max-width: 850px;
-            margin: 80px auto 40px auto; 
-            background-color: var(--container-bg);
-            border: 2px solid var(--border-color);
-            padding: 30px;
+            max-width: 1100px;
+            margin: 100px auto 40px auto; 
+            background-color: transparent; 
+            border: none; 
+            padding: 10px 30px;
             min-height: 80vh;
             text-shadow: var(--text-shadow);
-            backdrop-filter: none; /* Sin blur, estrellas nítidas */
         }
 
         .page-section {
@@ -165,133 +144,112 @@
         }
 
         .section-title {
-            border-bottom: 2px dashed var(--text-color);
+            border-bottom: 1px dashed var(--text-color);
             padding-bottom: 10px;
-            margin-bottom: 25px;
-            font-size: 1.5em;
+            margin-bottom: 30px;
+            font-size: 32px; 
+        }
+
+        /* Animación de Parpadeo Neón para la foto */
+        @keyframes neon-flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                box-shadow: 0 0 25px var(--text-color);
+                border-color: var(--text-color);
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                box-shadow: none;
+                border-color: var(--border-color);
+                opacity: 0.8;
+            }
+        }
+
+        /* Perfil en Inicio centrado y circular */
+        .profile-container {
+            display: flex;
+            gap: 50px; 
+            align-items: center; 
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .profile-left {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 280px;
+            height: 280px;
+            border: 4px solid var(--text-color);
+            border-radius: 50%; 
+            object-fit: cover;
+            animation: neon-flicker 4s infinite;
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+            line-height: 1.5; 
+            text-align: left; 
+            font-size: 22px; 
         }
 
         .retro-btn {
             background-color: var(--btn-bg);
             color: var(--text-color);
-            border: 2px solid var(--text-color);
-            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
             font-family: inherit;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             margin-top: 15px;
             text-shadow: none; 
-            transition: all 0.2s;
-            display: inline-block;
         }
-        
         .retro-btn:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
+            color: var(--highlight);
+            border-color: var(--highlight);
         }
 
-        /* =========================================================
-           PROYECTOS
-           ========================================================= */
+        /* Cuadrícula de Proyectos */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 25px;
         }
 
         .project-card {
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             padding: 15px;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s;
             text-align: center;
-            background: var(--container-bg);
+            background: var(--container-bg); 
         }
 
         .project-card:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
             border-color: var(--highlight);
         }
 
         .project-card img {
             width: 100%;
-            height: 140px;
+            height: 150px;
             object-fit: cover;
-            border-bottom: 2px dashed var(--border-color);
-            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            margin-bottom: 10px;
         }
 
         #project-details {
             display: none;
-            border: 2px solid var(--border-color);
-            padding: 25px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
             background: var(--container-bg);
         }
 
-        /* =========================================================
-           CONTACTOS & FORMULARIO
-           ========================================================= */
-        .social-links li {
-            margin-bottom: 8px;
-        }
-        .social-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
-        }
-        .social-links a:hover {
-            border-bottom: 1px solid var(--text-color);
-        }
-
-        .contact-form {
-            border: 2px dashed var(--border-color);
-            padding: 20px;
-            margin-top: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .form-group label {
-            width: 100px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
-        .form-group input, .form-group textarea {
-            flex: 1;
-            min-width: 200px;
-            max-width: 400px;
-            background: transparent;
-            color: var(--text-color);
-            border: 2px solid var(--border-color);
-            padding: 8px;
-            font-family: inherit;
-            font-size: 18px;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--highlight);
-        }
-        
-        #form-status {
-            display: none;
-            margin-top: 15px;
-            padding: 10px;
-            border: 1px solid var(--highlight);
-            color: var(--highlight);
-            background: var(--btn-bg);
-        }
-
-        /* =========================================================
-           MODAL DEL CV
-           ========================================================= */
+        /* Modal del CV */
         #cv-modal {
             display: none;
             position: fixed;
@@ -299,51 +257,42 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90%;
-            max-width: 800px;
+            max-width: 700px;
             background-color: var(--modal-bg);
-            border: 3px solid var(--text-color);
+            border: 2px solid var(--text-color);
             z-index: 1000;
-            box-shadow: 10px 10px 0px rgba(0,0,0,0.6);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
             max-height: 90vh;
             overflow-y: auto;
             text-shadow: none; 
         }
         
         :root.light-mode #cv-modal {
-            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
         }
 
         .modal-header {
             background-color: var(--text-color);
             color: var(--modal-bg);
-            padding: 10px 15px;
+            padding: 5px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: bold;
-            position: sticky;
-            top: 0;
         }
 
         .close-btn {
             background: none;
-            border: 2px solid var(--modal-bg);
+            border: none;
             color: var(--modal-bg);
-            padding: 0 8px;
             font-size: 20px;
             cursor: pointer;
             font-family: inherit;
-            transition: all 0.2s;
-        }
-        .close-btn:hover {
-            background: var(--modal-bg);
-            color: var(--text-color);
         }
 
         .modal-content {
-            padding: 30px;
+            padding: 20px;
             color: var(--text-color);
-            line-height: 1.6;
         }
 
         .modal-backdrop {
@@ -353,13 +302,11 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
             z-index: 999;
         }
 
-        /* =========================================================
-           IMPRESIÓN (SÓLO CV)
-           ========================================================= */
+        /* Estilos de impresión */
         @media print {
             body * { visibility: hidden; }
             #cv-modal, #cv-modal * {
@@ -375,22 +322,22 @@
                 top: 0;
                 transform: none;
                 width: 100%;
-                box-shadow: none !important;
-                border: none !important;
+                box-shadow: none;
+                border: none;
             }
-            .no-print, .modal-header, .retro-btn { display: none !important; }
+            .modal-header, .retro-btn { display: none !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ANIMACIÓN DE ESTRELLAS -->
-    <canvas id="space-canvas" class="no-print"></canvas>
+    <!-- Animación de fondo -->
+    <canvas id="space-canvas"></canvas>
 
-    <!-- NAVEGACIÓN -->
-    <nav id="top-nav" class="no-print">
+    <!-- Navegación Superior con Logo -->
+    <nav id="top-nav">
         <div class="nav-left">
-            <img src="Archivos_extras/logo.jpg" alt="Logo" class="nav-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100%\' height=\'100%\' fill=\'cyan\'/></svg>'">
+            <img src="Archivos_extras/logo.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
             <div class="nav-links">
                 <a onclick="navigate('inicio')" id="link-inicio" class="active">☆ <span data-i18n="nav-home">Inicio</span></a>
                 <a onclick="navigate('sobre-mi')" id="link-sobre-mi">☆ <span data-i18n="nav-about">Sobre mí</span></a>
@@ -404,166 +351,144 @@
         </div>
     </nav>
 
-    <!-- CONTENEDOR PRINCIPAL -->
-    <div id="main-container" class="no-print">
+    <!-- Contenedor Principal (Sin bordes y flotante) -->
+    <div id="main-container">
 
-        <!-- 1. INICIO -->
+        <!-- SECCIÓN: INICIO -->
         <section id="inicio" class="page-section active">
             <h1 class="section-title" data-i18n="title-home">/home/alexis/inicio</h1>
             
-            <div class='profile-container' style='display:flex; gap:20px; flex-wrap:wrap; margin-bottom: 20px; align-items: center;'>
-                <img src='Archivos_extras/foto-perfil.jpeg' alt='Profile Foto' style='width:150px; height:150px; border:2px solid var(--text-color); object-fit:cover;' onerror="this.style.display='none'">
-                <div style='flex:1; line-height:1.6;'>
-                    <h2 style="color: var(--highlight);">Ing. Alexis Gethsemani Hernández Hernández</h2>
-                    <!-- Mensaje grande de bienvenida -->
-                    <h2 style="font-size: 2.5em; text-transform: uppercase;" data-i18n="welcome-text">BIENVENIDOS A MI PORTAL WEB</h2>
-                    <br>
-                    <p data-i18n='profile-location'>Ubicación: Toluca, Estado de México.</p><br>
-                    <p data-i18n='profile-occupation'>Ocupación: Ingeniero de Software</p>
+            <div class="profile-container">
+                <div class="profile-left">
+                    <img src="Archivos_extras/foto-perfil.jpeg" alt="Alexis Gethsemani" class="profile-pic" onerror="this.style.display='none'">
+                    
+                    <!-- NUEVO: Nombre y Título -->
+                    <div style="text-align: center; margin-top: 20px; max-width: 280px;">
+                        <p data-i18n="profile-title" style="font-size: 24px; line-height: 1.2; color: var(--text-color);">Ing. en Software Alexis Gethsemani Hernández Hernández</p>
+                    </div>
+                    
+                    <button class="retro-btn" onclick="openCV()" data-i18n="btn-view-cv">[ Ver CV ]</button>
+                </div>
+                
+                <div class="profile-info">
+                    <h2 data-i18n="welcome-title" style="font-size: 36px;">Bienvenidos a mi Portal web.</h2>
+                    <p data-i18n="welcome-desc">Soy Alexis Gethsemani Hernandez Hernandez, desarrollador enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, así como mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas. Mi objetivo es seguir creciendo profesionalmente, aportar valor a cada proyecto y contribuir al desarrollo de soluciones innovadoras que respondan a las necesidades reales de las organizaciones.</p>
                 </div>
             </div>
-
-            <button class="retro-btn" onclick="openCV()" data-i18n="btn-view-cv">[ Ver CV ]</button>
         </section>
 
-        <!-- 2. SOBRE MÍ -->
+        <!-- SECCIÓN: SOBRE MÍ -->
         <section id="sobre-mi" class="page-section">
             <h1 class="section-title" data-i18n="title-about">/home/alexis/sobre_mi</h1>
-            <p data-i18n="about-p1">¡Hola Mundo! Soy Alexis Gethsemani.</p>
-            <br>
-            <p data-i18n="about-p2">Tengo una gran fascinación por entender cómo funcionan las cosas por debajo del capó. Me apasiona escribir código limpio y me interesa profundamente la Arquitectura de Software. Creo firmemente que un buen sistema debe ser escalable, robusto y fácil de entender.</p>
-            <br>
+            <p data-i18n="about-p1">¡Hola! Soy desarrollador de software en formación con un enfoque práctico en la resolución de problemas y la creación de soluciones eficientes.</p><br>
+            
             <h3 data-i18n="skills-title">> HABILIDADES TÉCNICAS:</h3>
-            <ul style="list-style: square; padding-left: 25px; line-height: 1.8;">
-                <li data-i18n="skill-1">Java (Multithreading, JavaFX, OOP)</li>
-                <li data-i18n="skill-2">Bases de Datos (MySQL, Modelado de datos)</li>
-                <li data-i18n="skill-3">Redes (Cisco Packet Tracer, VLANs, Subnetting, RIP)</li>
-                <li data-i18n="skill-4">Metodologías (RUP, Spiral, UML Diagrams, Clean Code)</li>
-                <li data-i18n="skill-5">Hardware Básico (Arduino Mega, Simulación de Circuitos)</li>
+            <ul style="list-style: square; padding-left: 20px; line-height: 1.8;">
+                <li>Java (Multithreading, JavaFX, OOP)</li>
+                <li>Bases de Datos (MySQL, Modelado de datos)</li>
+                <li>Redes (Cisco Packet Tracer, VLANs, Subnetting)</li>
+                <li>Metodologías (RUP, Spiral, UML Diagrams)</li>
+                <li>Hardware Básico (Arduino, Circuitos)</li>
             </ul>
         </section>
 
-        <!-- 3. PROYECTOS -->
+        <!-- SECCIÓN: PROYECTOS -->
         <section id="proyectos" class="page-section">
             <h1 class="section-title" data-i18n="title-projects">/home/alexis/proyectos</h1>
             
             <div id="projects-list" class="projects-grid">
                 <div class="project-card" onclick="showProject('optem')">
-                    <img src="https://placehold.co/400x200/111/0ff?text=OPTEM.exe" alt="Proyecto OPTEM">
+                    <img src="ruta_foto_proyecto1.jpg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
                     <h3>OPTEM</h3>
-                    <p data-i18n="proj-optem-short">Agenda académica virtual en Java.</p>
+                    <p data-i18n="proj-optem-short">Agenda académica virtual</p>
                 </div>
                 <div class="project-card" onclick="showProject('joda')">
-                    <img src="https://placehold.co/400x200/111/0ff?text=COMPILADOR_JODA" alt="Compilador JODA">
+                    <img src="ruta_foto_proyecto2.jpg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
                     <h3>Compilador JODA</h3>
-                    <p data-i18n="proj-joda-short">Analizador léxico y sintáctico.</p>
+                    <p data-i18n="proj-joda-short">Diseño de compilador en Java</p>
                 </div>
                 <div class="project-card" onclick="showProject('redes')">
-                    <img src="https://placehold.co/400x200/111/0ff?text=CISCO_PACKET" alt="Topologías de Red">
-                    <h3 data-i18n="proj-redes-title">Topologías de Red</h3>
-                    <p data-i18n="proj-redes-short">Diseño y simulación de redes en Cisco PT.</p>
+                    <img src="ruta_foto_proyecto3.jpg" alt="Topologías de Red" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+                    <h3>Cisco Packet Tracer</h3>
+                    <p data-i18n="proj-redes-short">Diseño y simulación de redes</p>
                 </div>
             </div>
 
-            <!-- Vista de Detalles del Proyecto -->
             <div id="project-details">
-                <button class="retro-btn" onclick="closeProject()" style="margin-bottom: 20px;" data-i18n="btn-back-projects">[ < Volver a Proyectos ]</button>
-                <h2 id="detail-title" style="font-size: 1.8em;">Título</h2>
-                <img id="detail-img" src="" alt="Detalle" style="width: 100%; height: auto; max-height: 300px; object-fit: cover; border: 2px solid var(--text-color); margin-bottom: 20px;">
+                <button class="retro-btn" onclick="closeProject()" style="margin-bottom: 20px;" data-i18n="btn-back">[ <-- Volver ]</button>
+                <h2 id="detail-title">Título</h2>
                 <p id="detail-desc" style="line-height: 1.6;">Descripción...</p>
             </div>
         </section>
 
-        <!-- 4. CONTACTOS -->
+        <!-- SECCIÓN: CONTACTOS -->
         <section id="contactos" class="page-section">
             <h1 class="section-title" data-i18n="title-contacts">/home/alexis/contactos</h1>
             
             <div style="margin-bottom: 25px;">
-                <p data-i18n="contact-desc" style="margin-bottom: 15px; color: var(--highlight);">> REDES SOCIALES Y CONTACTO DIRECTO:</p>
-                <ul class="social-links" style="list-style: square; padding-left: 25px; line-height: 2;">
-                    <li>Facebook: <a href="https://www.facebook.com/alexis.hernandez.536341?locale=es_LA" target="_blank">alexis.hernandez.536341</a></li>
-                    <li>Instagram: <a href="https://www.instagram.com/alexis_gethse/" target="_blank">@alexis_gethse</a></li>
-                    <li>GitHub: <a href="https://github.com/Azathoth-AGHH" target="_blank">Azathoth-AGHH</a></li>
-                    <li>Email: <a href="mailto:alexisgethsemani@gmail.com">alexisgethsemani@gmail.com</a></li>
+                <p data-i18n="contact-desc" style="margin-bottom: 10px;">Redes sociales y contacto directo:</p>
+                <ul style="list-style: square; padding-left: 20px; line-height: 1.8;">
+                    <li>Facebook: <a href="https://www.facebook.com/alexis.hernandez.536341?locale=es_LA" target="_blank" style="color: var(--text-color); text-decoration: none;">alexis.hernandez.536341</a></li>
+                    <li>Instagram: <a href="https://www.instagram.com/alexis_gethse/" target="_blank" style="color: var(--text-color); text-decoration: none;">@alexis_gethse</a></li>
+                    <li>GitHub: <a href="https://github.com/Azathoth-AGHH" target="_blank" style="color: var(--text-color); text-decoration: none;">Azathoth-AGHH</a></li>
+                    <li>Email: <a href="mailto:alexisgethsemani@gmail.com" style="color: var(--text-color); text-decoration: none;">alexisgethsemani@gmail.com</a></li>
                 </ul>
             </div>
 
-            <!-- Formulario Simulado sin Alert() -->
-            <div class="contact-form">
-                <p style="margin-bottom: 20px; color: var(--highlight);" data-i18n="form-title">> ENVIAR MENSAJE AL SERVIDOR (SIMULACIÓN)</p>
+            <div style="border: 1px dashed var(--border-color); padding: 15px; background: var(--container-bg);">
+                <p style="margin-bottom: 15px; color: var(--highlight);" data-i18n="form-title">> ENVIAR MENSAJE (SIMULACIÓN)</p>
                 
-                <form onsubmit="submitForm(event)">
-                    <div class="form-group">
-                        <label data-i18n="form-email">Correo:</label>
-                        <input type="email" placeholder="usuario@terminal.com" required>
+                <form id="contact-form" onsubmit="handleFormSubmit(event)">
+                    <div style="margin-bottom: 12px;">
+                        <label data-i18n="form-email" style="display: inline-block; width: 90px;">Correo:</label>
+                        <input type="email" placeholder="tu@correo.com" style="width: calc(100% - 100px); max-width: 300px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 5px; font-family: inherit;" required>
                     </div>
                     
-                    <div class="form-group">
-                        <label data-i18n="form-subject">Asunto:</label>
-                        <input type="text" placeholder="..." required>
+                    <div style="margin-bottom: 12px;">
+                        <label data-i18n="form-subject" style="display: inline-block; width: 90px;">Asunto:</label>
+                        <input type="text" placeholder="..." style="width: calc(100% - 100px); max-width: 300px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 5px; font-family: inherit;" required>
                     </div>
 
-                    <div class="form-group">
-                        <label data-i18n="form-msg">Mensaje:</label>
-                        <textarea placeholder="..." rows="4" required style="resize: none;"></textarea>
+                    <div style="margin-bottom: 12px;">
+                        <label data-i18n="form-msg" style="display: inline-block; width: 90px; vertical-align: top;">Mensaje:</label>
+                        <textarea placeholder="..." style="width: calc(100% - 100px); max-width: 300px; height: 70px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 5px; font-family: inherit; resize: none;" required></textarea>
                     </div>
 
-                    <div style="padding-left: 100px;">
-                        <button type="submit" class="retro-btn" data-i18n="form-send">[ Ejecutar Envío ]</button>
-                    </div>
+                    <button type="submit" class="retro-btn" data-i18n="form-send" style="margin-left: 95px; margin-top: 5px;">[ Enviar ]</button>
+                    <span id="form-feedback" style="display: none; color: #0f0; margin-left: 10px; font-weight: bold;">[ OK ] Mensaje enviado.</span>
                 </form>
-                <div id="form-status">Mensaje enviado.</div>
             </div>
         </section>
 
     </div>
 
     <!-- MODAL CURRICULUM -->
-    <div class="modal-backdrop no-print" id="cv-backdrop" onclick="closeCV()"></div>
+    <div class="modal-backdrop" id="cv-backdrop" onclick="closeCV()"></div>
     <div id="cv-modal">
         <div class="modal-header">
             <span data-i18n="cv-window-title">C:\Documentos\Curriculum_Alexis.pdf</span>
             <button class="close-btn" onclick="closeCV()">[X]</button>
         </div>
         <div class="modal-content">
-            <h1 style="color: var(--text-color); border-bottom: 2px solid var(--text-color); padding-bottom: 10px; text-align: center;">ALEXIS GETHSEMANI HERNÁNDEZ HERNÁNDEZ</h1>
-            <div style="text-align: center; margin-bottom: 30px;">
-                <p><strong>Email:</strong> alexisgethsemani@gmail.com | <strong>Ubicación:</strong> Toluca, Edo. Méx.</p>
-                <p><strong>GitHub:</strong> github.com/Azathoth-AGHH</p>
-            </div>
-            
-            <h3 data-i18n="cv-profile-title">> PERFIL PROFESIONAL</h3>
-            <p data-i18n="cv-profile-desc" style="margin-bottom: 25px;">Desarrollador de software en formación, enfocado en la creación de soluciones eficientes, escalables y mantenibles. Apasionado por la arquitectura de software, las buenas prácticas de programación (Clean Code) y el entendimiento profundo de los sistemas informáticos.</p>
-            
-            <h3 data-i18n="cv-edu-title">> EDUCACIÓN</h3>
-            <p><strong data-i18n="cv-edu-degree">Ingeniería de Software (5to Semestre)</strong></p>
-            <p data-i18n="cv-edu-school" style="margin-bottom: 25px;">Centro Universitario UAEMéx Tianguistenco</p>
-            
-            <h3 data-i18n="cv-exp-title">> EXPERIENCIA Y PROYECTOS DESTACADOS</h3>
-            <ul style="list-style: square; padding-left: 20px; margin-bottom: 30px;">
-                <li style="margin-bottom: 10px;">
-                    <strong>OPTEM:</strong> <span data-i18n="cv-exp-1">Aplicación de escritorio en JavaFX con integración de herramientas de productividad (Temporizador Pomodoro, gestión de tareas).</span>
-                </li>
-                <li style="margin-bottom: 10px;">
-                    <strong>Compilador JODA:</strong> <span data-i18n="cv-exp-2">Desarrollo de un analizador léxico y sintáctico en Java, aplicando fundamentos de diseño de compiladores.</span>
-                </li>
-                <li style="margin-bottom: 10px;">
-                    <strong data-i18n="cv-exp-3-title">Diseño de Redes:</strong> <span data-i18n="cv-exp-3">Configuración de topologías complejas en Cisco Packet Tracer, implementando VLANs, subredes y protocolos de enrutamiento.</span>
-                </li>
+            <h1 style="color: var(--text-color); border-bottom: 2px solid var(--text-color); padding-bottom: 10px;">Alexis Gethsemani Hernández Hernández</h1>
+            <p><strong>Email:</strong> alexisgethsemani@gmail.com | <strong>Ubicación:</strong> Toluca, Edo. Méx.</p>
+            <br>
+            <h3 data-i18n="cv-edu">> EDUCACIÓN</h3>
+            <p>Estudiante de 5to Semestre - Ingeniería de Software</p>
+            <p>Centro Universitario UAEMéx Tianguistenco</p>
+            <br>
+            <h3 data-i18n="cv-exp">> EXPERIENCIA Y PROYECTOS</h3>
+            <ul>
+                <li><strong>OPTEM:</strong> Aplicación de escritorio JavaFX con widgets y temporizador Pomodoro.</li>
+                <li><strong>Redes:</strong> Configuración de VLANs y protocolos RIP (Cisco Packet Tracer).</li>
+                <li><strong>Bases de Datos:</strong> Diseño e implementación de esquemas en MySQL.</li>
             </ul>
-
-            <h3 data-i18n="cv-skills-title">> HABILIDADES</h3>
-            <p data-i18n="cv-skills-list">Java, MySQL, Cisco Packet Tracer, Arduino Mega, UML, Arquitectura de Software.</p>
-            
-            <button class="retro-btn no-print" onclick="window.print()" data-i18n="btn-print" style="margin-top: 40px; display: block; width: 100%; text-align: center;">[ Descargar PDF / Imprimir ]</button>
+            <br>
+            <button class="retro-btn" onclick="window.print()" data-i18n="btn-print">[ Descargar / Imprimir PDF ]</button>
         </div>
     </div>
 
-    <!-- SCRIPTS DE FUNCIONALIDAD -->
     <script>
-        // =========================================================
-        // DICCIONARIO DE TRADUCCIONES COMPLETAS
-        // =========================================================
         const translations = {
             es: {
                 "nav-home": "Inicio",
@@ -571,62 +496,35 @@
                 "nav-projects": "Proyectos",
                 "nav-contacts": "Contactos",
                 "btn-theme": "[ ☀/☾ Tema ]",
-                
-                // Inicio
                 "title-home": "/home/alexis/inicio",
-                "welcome-text": "BIENVENIDOS A MI PORTAL WEB",
-                "profile-location": "Ubicación: Toluca, Estado de México.",
-                "profile-occupation": "Ocupación: Estudiante de Ingeniería de Software (5to Semestre) en Centro Universitario UAEMéx Tianguistenco.",
+                
+                "profile-title": "Ing. en Software Alexis Gethsemani Hernández Hernández",
+                "welcome-title": "Bienvenidos a mi Portal web.",
+                "welcome-desc": "Soy Alexis Gethsemani Hernandez Hernandez, desarrollador enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, así como mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas. Mi objetivo es seguir creciendo profesionalmente, aportar valor a cada proyecto y contribuir al desarrollo de soluciones innovadoras que respondan a las necesidades reales de las organizaciones.",
+                
                 "btn-view-cv": "[ Ver CV ]",
-                
-                // Sobre Mi
                 "title-about": "/home/alexis/sobre_mi",
-                "about-p1": "¡Hola Mundo! Soy Alexis Gethsemani.",
-                "about-p2": "Tengo una gran fascinación por entender cómo funcionan las cosas por debajo del capó. Me apasiona escribir código limpio y me interesa profundamente la Arquitectura de Software. Creo firmemente que un buen sistema debe ser escalable, robusto y fácil de entender.",
+                "about-p1": "¡Hola! Soy desarrollador de software en formación con un enfoque práctico en la resolución de problemas y la creación de soluciones eficientes.",
                 "skills-title": "> HABILIDADES TÉCNICAS:",
-                "skill-1": "Java (Multithreading, JavaFX, OOP)",
-                "skill-2": "Bases de Datos (MySQL, Modelado de datos)",
-                "skill-3": "Redes (Cisco Packet Tracer, VLANs, Subnetting, RIP)",
-                "skill-4": "Metodologías (RUP, Spiral, UML Diagrams, Clean Code)",
-                "skill-5": "Hardware Básico (Arduino Mega, Simulación de Circuitos)",
-                
-                // Proyectos
                 "title-projects": "/home/alexis/proyectos",
-                "proj-optem-short": "Agenda académica virtual en Java.",
-                "proj-joda-short": "Analizador léxico y sintáctico.",
-                "proj-redes-title": "Topologías de Red",
-                "proj-redes-short": "Diseño y simulación de redes en Cisco PT.",
-                "btn-back-projects": "[ < Volver a Proyectos ]",
-                
-                "desc-optem": "Desarrollo de OPTEM, una agenda académica virtual de escritorio construida con Java y JavaFX. Integra herramientas como temporizadores Pomodoro para mejorar la productividad estudiantil y mecánicas de gestión de tiempo.",
-                "desc-joda": "Proyecto de diseño de compiladores. Consiste en la creación de un analizador léxico y sintáctico desarrollado íntegramente en Java, demostrando conocimientos sobre la traducción de lenguajes de alto nivel.",
-                "desc-redes": "Diseño, validación y simulación de redes informáticas utilizando Cisco Packet Tracer. Incluye la configuración de puertos de switch, VLANs, subredes, enrutamiento inter-VLAN y protocolos de enrutamiento RIP.",
-                
-                // Contactos
+                "proj-optem-short": "Agenda académica virtual",
+                "proj-joda-short": "Diseño de compilador en Java",
+                "proj-redes-short": "Diseño y simulación de redes",
+                "btn-back": "[ <-- Volver ]",
                 "title-contacts": "/home/alexis/contactos",
-                "contact-desc": "> REDES SOCIALES Y CONTACTO DIRECTO:",
-                "form-title": "> ENVIAR MENSAJE AL SERVIDOR (SIMULACIÓN)",
+                "contact-desc": "Redes sociales y contacto directo:",
+                "form-title": "> ENVIAR MENSAJE (SIMULACIÓN)",
                 "form-email": "Correo:",
                 "form-subject": "Asunto:",
                 "form-msg": "Mensaje:",
-                "form-send": "[ Ejecutar Envío ]",
-                "form-success": "> DATOS TRANSMITIDOS CON ÉXITO.",
-                
-                // Modal CV
+                "form-send": "[ Enviar ]",
                 "cv-window-title": "C:\\Documentos\\Curriculum_Alexis.pdf",
-                "cv-profile-title": "> PERFIL PROFESIONAL",
-                "cv-profile-desc": "Desarrollador de software en formación, enfocado en la creación de soluciones eficientes, escalables y mantenibles. Apasionado por la arquitectura de software, las buenas prácticas de programación (Clean Code) y el entendimiento profundo de los sistemas informáticos.",
-                "cv-edu-title": "> EDUCACIÓN",
-                "cv-edu-degree": "Ingeniería de Software (5to Semestre)",
-                "cv-edu-school": "Centro Universitario UAEMéx Tianguistenco",
-                "cv-exp-title": "> EXPERIENCIA Y PROYECTOS DESTACADOS",
-                "cv-exp-1": "Aplicación de escritorio en JavaFX con integración de herramientas de productividad (Temporizador Pomodoro, gestión de tareas).",
-                "cv-exp-2": "Desarrollo de un analizador léxico y sintáctico en Java, aplicando fundamentos de diseño de compiladores.",
-                "cv-exp-3-title": "Diseño de Redes:",
-                "cv-exp-3": "Configuración de topologías complejas en Cisco Packet Tracer, implementando VLANs, subredes y protocolos de enrutamiento.",
-                "cv-skills-title": "> HABILIDADES",
-                "cv-skills-list": "Java, MySQL, Cisco Packet Tracer, Arduino Mega, UML, Arquitectura de Software.",
-                "btn-print": "[ Descargar PDF / Imprimir ]"
+                "cv-edu": "> EDUCACIÓN",
+                "cv-exp": "> EXPERIENCIA Y PROYECTOS",
+                "btn-print": "[ Descargar / Imprimir PDF ]",
+                "desc-optem": "Desarrollo de OPTEM, una agenda académica virtual de escritorio construida con Java, JavaFX y Maven, presentando widgets de escritorio, temporizadores Pomodoro y mecánicas de gamificación.",
+                "desc-joda": "Creación de especificaciones de proyecto y materiales de arquitectura para el Compilador JODA basado en Java para un curso de diseño de compiladores.",
+                "desc-redes": "Diseño y validación de topologías de red utilizando Cisco Packet Tracer, configurando puertos de switch, VLANs, subredes, enrutamiento inter-VLAN y protocolos RIP."
             },
             en: {
                 "nav-home": "Home",
@@ -634,101 +532,50 @@
                 "nav-projects": "Projects",
                 "nav-contacts": "Contacts",
                 "btn-theme": "[ ☀/☾ Theme ]",
-                
-                // Inicio
                 "title-home": "/home/alexis/home",
-                "welcome-text": "WELCOME TO MY WEB PORTAL",
-                "profile-location": "Location: Toluca, State of Mexico.",
-                "profile-occupation": "Occupation: Software Engineering Student (5th Semester) at Centro Universitario UAEMéx Tianguistenco.",
+                
+                "profile-title": "Software Eng. Alexis Gethsemani Hernández Hernández",
+                "welcome-title": "Welcome to my Web Portal.",
+                "welcome-desc": "I am Alexis Gethsemani Hernandez Hernandez, a developer focused on creating technological solutions, system design, and efficient problem solving. I specialize in analyzing challenges, identifying opportunities for improvement, and developing functional solutions through programming, software best practices, and the strategic use of Artificial Intelligence tools. In this portal you will find my projects, technical skills, and experience in systems analysis, design, and development, as well as my ability to adapt to new challenges, optimize processes, and transform ideas into concrete solutions. My goal is to continue growing professionally, add value to each project, and contribute to the development of innovative solutions that respond to the real needs of organizations.",
+                
                 "btn-view-cv": "[ View CV ]",
-                
-                // Sobre Mi
                 "title-about": "/home/alexis/about_me",
-                "about-p1": "Hello World! I'm Alexis Gethsemani.",
-                "about-p2": "I have a great fascination for understanding how things work under the hood. I am passionate about writing clean code and deeply interested in Software Architecture. I firmly believe a good system should be scalable, robust, and easy to understand.",
+                "about-p1": "Hello! I'm a software developer in training with a practical approach to problem-solving and creating efficient solutions.",
                 "skills-title": "> TECHNICAL SKILLS:",
-                "skill-1": "Java (Multithreading, JavaFX, OOP)",
-                "skill-2": "Databases (MySQL, Data Modeling)",
-                "skill-3": "Networking (Cisco Packet Tracer, VLANs, Subnetting, RIP)",
-                "skill-4": "Methodologies (RUP, Spiral, UML Diagrams, Clean Code)",
-                "skill-5": "Basic Hardware (Arduino Mega, Circuit Simulation)",
-                
-                // Proyectos
                 "title-projects": "/home/alexis/projects",
-                "proj-optem-short": "Virtual academic planner in Java.",
-                "proj-joda-short": "Lexical and syntactic analyzer.",
-                "proj-redes-title": "Network Topologies",
-                "proj-redes-short": "Network design and simulation in Cisco PT.",
-                "btn-back-projects": "[ < Back to Projects ]",
-                
-                "desc-optem": "Development of OPTEM, a virtual desktop academic planner built with Java and JavaFX. It integrates tools like Pomodoro timers to improve student productivity and time management mechanics.",
-                "desc-joda": "Compiler design project. Consists of the creation of a lexical and syntactic analyzer developed entirely in Java, demonstrating knowledge of high-level language translation.",
-                "desc-redes": "Design, validation, and simulation of computer networks using Cisco Packet Tracer. Includes switch port configuration, VLANs, subnets, inter-VLAN routing, and RIP routing protocols.",
-                
-                // Contactos
+                "proj-optem-short": "Virtual academic planner",
+                "proj-joda-short": "Java compiler design",
+                "proj-redes-short": "Network design and simulation",
+                "btn-back": "[ <-- Back ]",
                 "title-contacts": "/home/alexis/contacts",
-                "contact-desc": "> SOCIAL MEDIA AND DIRECT CONTACT:",
-                "form-title": "> SEND MESSAGE TO SERVER (SIMULATION)",
+                "contact-desc": "Social media and direct contact:",
+                "form-title": "> SEND MESSAGE (SIMULATION)",
                 "form-email": "Email:",
                 "form-subject": "Subject:",
                 "form-msg": "Message:",
-                "form-send": "[ Execute Send ]",
-                "form-success": "> DATA TRANSMITTED SUCCESSFULLY.",
-                
-                // Modal CV
+                "form-send": "[ Send ]",
                 "cv-window-title": "C:\\Documents\\Alexis_Resume.pdf",
-                "cv-profile-title": "> PROFESSIONAL PROFILE",
-                "cv-profile-desc": "Software developer in training, focused on creating efficient, scalable, and maintainable solutions. Passionate about software architecture, clean code practices, and a deep understanding of computer systems.",
-                "cv-edu-title": "> EDUCATION",
-                "cv-edu-degree": "Software Engineering (5th Semester)",
-                "cv-edu-school": "Centro Universitario UAEMéx Tianguistenco",
-                "cv-exp-title": "> EXPERIENCE & HIGHLIGHTED PROJECTS",
-                "cv-exp-1": "JavaFX desktop application integrating productivity tools (Pomodoro Timer, task management).",
-                "cv-exp-2": "Development of a lexical and syntactic analyzer in Java, applying compiler design fundamentals.",
-                "cv-exp-3-title": "Network Design:",
-                "cv-exp-3": "Complex topology configuration in Cisco Packet Tracer, implementing VLANs, subnets, and routing protocols.",
-                "cv-skills-title": "> SKILLS",
-                "cv-skills-list": "Java, MySQL, Cisco Packet Tracer, Arduino Mega, UML, Software Architecture.",
-                "btn-print": "[ Download PDF / Print ]"
+                "cv-edu": "> EDUCATION",
+                "cv-exp": "> EXPERIENCE & PROJECTS",
+                "btn-print": "[ Download / Print PDF ]",
+                "desc-optem": "Development of OPTEM, a virtual desktop academic agenda built with Java, JavaFX, and Maven featuring desktop widgets, Pomodoro timers, and gamification mechanics.",
+                "desc-joda": "Created project specifications and architecture materials for the Java-based Compilador JODA project for a compiler design course.",
+                "desc-redes": "Designed and validated network topologies using Cisco Packet Tracer, configuring switch ports, VLANs, subnets, inter-VLAN routing, and RIP routing protocols."
             }
         };
 
-        // =========================================================
-        // VARIABLES GLOBALES Y LÓGICA DE IDIOMA/TEMA
-        // =========================================================
         let currentLang = 'es';
-        let currentProjectOpen = null;
-
-        const projectImages = {
-            'optem': 'https://placehold.co/800x400/111/0ff?text=Captura+OPTEM',
-            'joda': 'https://placehold.co/800x400/111/0ff?text=Captura+JODA',
-            'redes': 'https://placehold.co/800x400/111/0ff?text=Captura+CISCO+PT'
-        };
 
         function toggleLanguage() {
             currentLang = currentLang === 'es' ? 'en' : 'es';
-            
-            // Actualizar todos los elementos con data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
+                    el.innerText = translations[currentLang][key];
                 }
             });
-
-            // Si hay un proyecto abierto, actualizar su descripción
             if(currentProjectOpen) {
                 document.getElementById('detail-desc').innerText = translations[currentLang]['desc-' + currentProjectOpen];
-                
-                let title = currentProjectOpen === 'optem' ? 'OPTEM' : 
-                            currentProjectOpen === 'joda' ? 'Compilador JODA' : 
-                            (currentLang === 'es' ? 'Topologías de Red' : 'Network Topologies');
-                document.getElementById('detail-title').innerText = "> " + title;
-            }
-
-            // Actualizar mensaje de éxito del formulario si está visible
-            if(document.getElementById('form-status').style.display === 'block') {
-                document.getElementById('form-status').innerText = translations[currentLang]['form-success'];
             }
         }
 
@@ -736,9 +583,6 @@
             document.documentElement.classList.toggle('light-mode');
         }
 
-        // =========================================================
-        // NAVEGACIÓN SPA (Single Page Application)
-        // =========================================================
         function navigate(pageId) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
@@ -746,26 +590,19 @@
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             document.getElementById('link-' + pageId).classList.add('active');
             
-            if(pageId !== 'proyectos') {
-                closeProject(); 
-            }
+            closeProject(); 
         }
 
-        // =========================================================
-        // LÓGICA DE PROYECTOS (Mostrar/Ocultar detalles)
-        // =========================================================
+        let currentProjectOpen = null;
         function showProject(id) {
             currentProjectOpen = id;
             document.getElementById('projects-list').style.display = 'none';
-            document.getElementById('project-details').style.display = 'block';
+            const details = document.getElementById('project-details');
+            details.style.display = 'block';
             
-            let title = id === 'optem' ? 'OPTEM' : 
-                        id === 'joda' ? 'Compilador JODA' : 
-                        (currentLang === 'es' ? 'Topologías de Red' : 'Network Topologies');
-            
-            document.getElementById('detail-title').innerText = "> " + title;
+            let title = id === 'optem' ? 'OPTEM' : id === 'joda' ? 'Compilador JODA' : 'Cisco Packet Tracer';
+            document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-desc').innerText = translations[currentLang]['desc-' + id];
-            document.getElementById('detail-img').src = projectImages[id];
         }
 
         function closeProject() {
@@ -774,24 +611,6 @@
             document.getElementById('project-details').style.display = 'none';
         }
 
-        // =========================================================
-        // LÓGICA DEL FORMULARIO DE CONTACTO (Sin alerts)
-        // =========================================================
-        function submitForm(event) {
-            event.preventDefault();
-            const statusBox = document.getElementById('form-status');
-            statusBox.innerText = translations[currentLang]['form-success'];
-            statusBox.style.display = 'block';
-            
-            // Ocultar el mensaje después de 3 segundos
-            setTimeout(() => {
-                statusBox.style.display = 'none';
-            }, 3000);
-        }
-
-        // =========================================================
-        // LÓGICA DEL MODAL CV
-        // =========================================================
         function openCV() {
             document.getElementById('cv-modal').style.display = 'block';
             document.getElementById('cv-backdrop').style.display = 'block';
@@ -802,13 +621,20 @@
             document.getElementById('cv-backdrop').style.display = 'none';
         }
 
-        // =========================================================
-        // ANIMACIÓN DEL CANVAS (ESTRELLAS EN VIAJE ESPACIAL)
-        // =========================================================
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const feedback = document.getElementById('form-feedback');
+            feedback.style.display = 'inline-block';
+            document.getElementById('contact-form').reset();
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 3000);
+        }
+
         const canvas = document.getElementById('space-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
-        const numStars = 400; // 400 estrellas moviéndose
+        const numStars = 400;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -833,8 +659,7 @@
 
             for (let i = 0; i < numStars; i++) {
                 let star = stars[i];
-                star.z -= 2; 
-                
+                star.z -= 2;
                 if (star.z <= 0) {
                     star.x = Math.random() * canvas.width;
                     star.y = Math.random() * canvas.height;
@@ -843,19 +668,15 @@
 
                 let x = (star.x - canvas.width / 2) * (canvas.width / star.z) + canvas.width / 2;
                 let y = (star.y - canvas.height / 2) * (canvas.width / star.z) + canvas.height / 2;
-                let radius = (canvas.width / star.z) * 1.5; 
+                let radius = (canvas.width / star.z) * 1.5;
 
-                if(x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
-                    ctx.beginPath();
-                    ctx.arc(x, y, radius, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
             }
             requestAnimationFrame(drawStars);
         }
-        
         drawStars();
-
     </script>
 </body>
 </html>
