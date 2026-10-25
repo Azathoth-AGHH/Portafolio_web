@@ -228,6 +228,7 @@
         .project-card:hover {
             transform: scale(1.05);
             border-color: var(--highlight);
+            box-shadow: 0 0 10px var(--text-color);
         }
 
         .project-card img {
@@ -238,15 +239,61 @@
             margin-bottom: 10px;
         }
 
+        /* Diseño de los detalles del proyecto (EXPANDIDO CON IMAGEN) */
         #project-details {
             display: none;
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 30px;
             background: var(--container-bg);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .detail-layout {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .detail-img-container {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+        }
+
+        .detail-img-container img {
+            width: 100%;
+            height: auto;
+            border: 2px solid var(--text-color);
+            box-shadow: 0 0 15px var(--text-color);
+            object-fit: cover;
+        }
+
+        .detail-text-container {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .detail-text-container h2 {
+            font-size: 38px;
+            color: var(--text-color);
+            border-bottom: 1px dashed var(--highlight);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .detail-text-container p {
+            line-height: 1.6;
+            font-size: 22px;
+            color: #ddd;
+        }
+        
+        :root.light-mode .detail-text-container p {
+            color: #222;
         }
 
         /* ==================================
-           DISEÑO MODAL CV - AJUSTADO PARA NO CORTARSE
+           DISEÑO MODAL CV 
            ================================== */
         #cv-modal {
             display: none;
@@ -358,24 +405,6 @@
 
         :root.light-mode .modal-footer p { color: #333; }
 
-        .btn-cyan-solid {
-            background-color: var(--text-color);
-            color: #000;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 20px; 
-            border: 2px solid var(--text-color);
-            transition: all 0.3s;
-            text-align: center;
-            font-family: inherit;
-            font-weight: bold;
-        }
-
-        .btn-cyan-solid:hover {
-            background-color: #000;
-            color: var(--text-color);
-        }
-
         .btn-cyan-outline {
             background-color: transparent;
             color: var(--text-color);
@@ -387,6 +416,7 @@
             text-align: center;
             font-family: inherit;
             display: inline-block;
+            font-weight: bold;
         }
 
         .btn-cyan-outline:hover {
@@ -482,26 +512,38 @@
             
             <div id="projects-list" class="projects-grid">
                 <div class="project-card" onclick="showProject('optem')">
-                    <img src="Archivos_extras/Fotos_proyectos/proyecto1.jpg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+                    <img src="Archivos_extras/Fotos_proyectos/OPTEM.jpeg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
                     <h3>OPTEM</h3>
                     <p data-i18n="proj-optem-short">Agenda académica virtual</p>
                 </div>
                 <div class="project-card" onclick="showProject('joda')">
-                    <img src="Archivos_extras/Fotos_proyectos/proyecto2.jpg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+                    <img src="Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
                     <h3>Compilador JODA</h3>
-                    <p data-i18n="proj-joda-short">Diseño de compilador en Java</p>
+                    <p data-i18n="proj-joda-short">Diseño de lenguaje y compilador</p>
                 </div>
-                <div class="project-card" onclick="showProject('redes')">
-                    <img src="Archivos_extras/Fotos_proyectos/proyecto3.jpg" alt="Topologías de Red" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
-                    <h3>Cisco Packet Tracer</h3>
-                    <p data-i18n="proj-redes-short">Diseño y simulación de redes</p>
+                <div class="project-card" onclick="showProject('libros')">
+                    <img src="Archivos_extras/Fotos_proyectos/De_libros.jpeg" alt="Proyecto De Libros" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+                    <h3 data-i18n="proj-libros-title">De Libros</h3>
+                    <p data-i18n="proj-libros-short">Plataforma de biblioteca digital</p>
                 </div>
             </div>
 
+            <!-- VISTA EXPANDIDA DEL PROYECTO -->
             <div id="project-details">
-                <button class="retro-btn" onclick="closeProject()" style="margin-bottom: 20px;" data-i18n="btn-back">[ <-- Volver ]</button>
-                <h2 id="detail-title">Título</h2>
-                <p id="detail-desc" style="line-height: 1.6;">Descripción...</p>
+                <button class="retro-btn" onclick="closeProject()" data-i18n="btn-back">[ <-- Volver a Proyectos ]</button>
+                
+                <div class="detail-layout">
+                    <!-- Imagen del proyecto a la izquierda -->
+                    <div class="detail-img-container">
+                        <img id="detail-img" src="" alt="Imagen detallada del proyecto">
+                    </div>
+                    
+                    <!-- Texto explicativo a la derecha -->
+                    <div class="detail-text-container">
+                        <h2 id="detail-title">Título</h2>
+                        <p id="detail-desc">Descripción detallada del proyecto...</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -546,7 +588,7 @@
 
     </div>
 
-    <!-- MODAL CURRICULUM DISEÑO VERTICAL FLEXIBLE -->
+    <!-- MODAL CURRICULUM DISEÑO VERTICAL -->
     <div class="modal-backdrop" id="cv-backdrop" onclick="closeCV()"></div>
     <div id="cv-modal">
         <!-- X en la esquina superior izquierda -->
@@ -554,7 +596,7 @@
         
         <div class="modal-layout-vertical">
             
-            <!-- Encabezado (Arriba del CV) sin el botón -->
+            <!-- Encabezado (Arriba del CV) SIN botón de descarga -->
             <div class="modal-header">
                 <div class="modal-header-text">
                     <h2 data-i18n="cv-modal-title">Currículum Vitae</h2>
@@ -567,7 +609,7 @@
                 <iframe src="Archivos_extras/CV/CV%20Alexis.pdf#toolbar=0" title="CV Alexis Hernández"></iframe>
             </div>
             
-            <!-- Pie de ventana (Debajo del CV) con el botón de descarga conservado -->
+            <!-- Pie de ventana (Debajo del CV) CON el botón de descarga -->
             <div class="modal-footer">
                 <p data-i18n="cv-modal-info">ℹ ¿Deseas guardar una copia en tu dispositivo? Puedes descargar el documento original en PDF.</p>
                 <a href="Archivos_extras/CV/CV%20Alexis.pdf" download="CV_Alexis_Hernandez.pdf" class="btn-cyan-outline" data-i18n="btn-download-bottom">⬇ DESCARGAR ARCHIVO</a>
@@ -595,10 +637,13 @@
                 "about-p1": "¡Hola! Soy desarrollador de software en formación con un enfoque práctico en la resolución de problemas y la creación de soluciones eficientes.",
                 "skills-title": "> HABILIDADES TÉCNICAS:",
                 "title-projects": "/home/alexis/proyectos",
+                
                 "proj-optem-short": "Agenda académica virtual",
-                "proj-joda-short": "Diseño de compilador en Java",
-                "proj-redes-short": "Diseño y simulación de redes",
-                "btn-back": "[ <-- Volver ]",
+                "proj-joda-short": "Diseño de lenguaje y compilador",
+                "proj-libros-title": "De Libros",
+                "proj-libros-short": "Plataforma de biblioteca digital",
+                
+                "btn-back": "[ <-- Volver a Proyectos ]",
                 "title-contacts": "/home/alexis/contactos",
                 "contact-desc": "Redes sociales y contacto directo:",
                 "form-title": "> ENVIAR MENSAJE (SIMULACIÓN)",
@@ -609,13 +654,14 @@
                 
                 "cv-modal-title": "Currículum Vitae",
                 "cv-modal-subtitle": "Visualización oficial del documento curricular",
-                "btn-download-top": "⬇ DESCARGAR CV (PDF)",
                 "cv-modal-info": "ℹ ¿Deseas guardar una copia en tu dispositivo? Puedes descargar el documento original en PDF.",
                 "btn-download-bottom": "⬇ DESCARGAR ARCHIVO",
 
-                "desc-optem": "Desarrollo de OPTEM, una agenda académica virtual de escritorio construida con Java, JavaFX y Maven, presentando widgets de escritorio, temporizadores Pomodoro y mecánicas de gamificación.",
-                "desc-joda": "Creación de especificaciones de proyecto y materiales de arquitectura para el Compilador JODA basado en Java para un curso de diseño de compiladores.",
-                "desc-redes": "Diseño y validación de topologías de red utilizando Cisco Packet Tracer, configurando puertos de switch, VLANs, subnets, inter-VLAN routing, y protocolos RIP."
+                "desc-optem": "> TECNOLOGÍAS: Java, JavaFX, Maven.\n\nOPTEM es una avanzada agenda académica virtual de escritorio diseñada específicamente para optimizar la organización y productividad estudiantil. Desarrollada íntegramente en Java, utiliza JavaFX para construir una interfaz gráfica moderna e interactiva, apoyada en Maven para la gestión robusta de dependencias.\n\nEl sistema incorpora innovadoras herramientas como widgets personalizados de escritorio, temporizadores Pomodoro integrados para la gestión de sesiones de estudio, y mecánicas de gamificación que motivan al usuario a cumplir sus metas diarias. La arquitectura del software garantiza un rendimiento fluido, modularidad y una experiencia altamente amigable.",
+                
+                "desc-joda": "> TECNOLOGÍAS: Java, JavaFX, Maven.\n\nCompilador JODA representa el desafío arquitectónico de diseñar e implementar un lenguaje de programación completamente nuevo desde cero. Este proyecto abarca la construcción algorítmica de su propio compilador, cubriendo las fases completas de análisis léxico, análisis sintáctico y análisis semántico.\n\nConstruido sobre una sólida base en Java, interfaces visuales en JavaFX y orquestado con Maven, JODA es una demostración profunda de conocimientos avanzados en teoría de autómatas, estructuras de datos complejas, gramáticas formales y el diseño interno del procesamiento de lenguajes informáticos.",
+                
+                "desc-libros": "> TECNOLOGÍAS: Java, JavaFX, Maven.\n\nDe Libros es una plataforma integral de biblioteca digital concebida para la gestión, lectura y organización estructurada de recursos literarios y acervos bibliográficos.\n\nDesarrollado en el robusto ecosistema de Java, el software emplea JavaFX para brindar una interfaz visual estéticamente fluida y agradable, mientras que Maven se encarga del control del ciclo de vida y empaquetado del proyecto. La aplicación permite un manejo sumamente eficiente de catálogos de libros, incorpora un sistema de búsquedas filtradas y proporciona un entorno inmersivo para los lectores, destacando la sólida aplicación de patrones de diseño orientado a objetos y buenas prácticas de ingeniería de software."
             },
             en: {
                 "nav-home": "Home",
@@ -634,10 +680,13 @@
                 "about-p1": "Hello! I'm a software developer in training with a practical approach to problem-solving and creating efficient solutions.",
                 "skills-title": "> TECHNICAL SKILLS:",
                 "title-projects": "/home/alexis/projects",
+                
                 "proj-optem-short": "Virtual academic planner",
-                "proj-joda-short": "Java compiler design",
-                "proj-redes-short": "Network design and simulation",
-                "btn-back": "[ <-- Back ]",
+                "proj-joda-short": "Language & compiler design",
+                "proj-libros-title": "De Libros",
+                "proj-libros-short": "Digital library platform",
+                
+                "btn-back": "[ <-- Back to Projects ]",
                 "title-contacts": "/home/alexis/contacts",
                 "contact-desc": "Social media and direct contact:",
                 "form-title": "> SEND MESSAGE (SIMULATION)",
@@ -648,13 +697,14 @@
                 
                 "cv-modal-title": "Resume / CV",
                 "cv-modal-subtitle": "Official view of the curriculum document",
-                "btn-download-top": "⬇ DOWNLOAD CV (PDF)",
                 "cv-modal-info": "ℹ Do you want to save a copy on your device? You can download the original PDF document.",
                 "btn-download-bottom": "⬇ DOWNLOAD FILE",
 
-                "desc-optem": "Development of OPTEM, a virtual desktop academic agenda built with Java, JavaFX, and Maven featuring desktop widgets, Pomodoro timers, and gamification mechanics.",
-                "desc-joda": "Created project specifications and architecture materials for the Java-based Compilador JODA project for a compiler design course.",
-                "desc-redes": "Designed and validated network topologies using Cisco Packet Tracer, configuring switch ports, VLANs, subnets, inter-VLAN routing, and RIP routing protocols."
+                "desc-optem": "> TECHNOLOGIES: Java, JavaFX, Maven.\n\nOPTEM is an advanced virtual desktop academic planner specifically designed to optimize student organization and productivity. Developed entirely in Java, it uses JavaFX to build a modern and interactive graphical interface, supported by Maven for robust dependency management.\n\nThe system incorporates innovative tools such as custom desktop widgets, integrated Pomodoro timers for managing study sessions, and gamification mechanics that motivate users to meet their daily goals. The software architecture ensures smooth performance, modularity, and a highly user-friendly experience.",
+                
+                "desc-joda": "> TECHNOLOGIES: Java, JavaFX, Maven.\n\nCompilador JODA represents the architectural challenge of designing and implementing a completely new programming language from scratch. This project encompasses the algorithmic construction of its own compiler, covering the full phases of lexical, syntactic, and semantic analysis.\n\nBuilt on a solid Java foundation, visual interfaces in JavaFX, and orchestrated with Maven, JODA is a deep demonstration of advanced knowledge in automata theory, complex data structures, formal grammars, and the internal design of computer language processing.",
+                
+                "desc-libros": "> TECHNOLOGIES: Java, JavaFX, Maven.\n\nDe Libros is a comprehensive digital library platform conceived for the management, reading, and structured organization of literary resources and bibliographic collections.\n\nDeveloped in the robust Java ecosystem, the software employs JavaFX to provide an aesthetically fluid and pleasing visual interface, while Maven handles lifecycle control and project packaging. The application allows highly efficient management of book catalogs, incorporates a filtered search system, and provides an immersive environment for readers, highlighting the solid application of object-oriented design patterns and software engineering best practices."
             }
         };
 
@@ -669,7 +719,9 @@
                 }
             });
             if(currentProjectOpen) {
-                document.getElementById('detail-desc').innerText = translations[currentLang]['desc-' + currentProjectOpen];
+                const desc = translations[currentLang]['desc-' + currentProjectOpen];
+                // Permitimos saltos de línea reemplazando \n por <br>
+                document.getElementById('detail-desc').innerHTML = desc.replace(/\n/g, '<br>');
             }
         }
 
@@ -694,9 +746,19 @@
             const details = document.getElementById('project-details');
             details.style.display = 'block';
             
-            let title = id === 'optem' ? 'OPTEM' : id === 'joda' ? 'Compilador JODA' : 'Cisco Packet Tracer';
+            let title = id === 'optem' ? 'OPTEM' : id === 'joda' ? 'Compilador JODA' : 'De Libros';
             document.getElementById('detail-title').innerText = title;
-            document.getElementById('detail-desc').innerText = translations[currentLang]['desc-' + id];
+            
+            // Cargar imagen del proyecto
+            let imgSrc = '';
+            if (id === 'optem') imgSrc = 'Archivos_extras/Fotos_proyectos/OPTEM.jpeg';
+            else if (id === 'joda') imgSrc = 'Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg';
+            else if (id === 'libros') imgSrc = 'Archivos_extras/Fotos_proyectos/De_libros.jpeg';
+            document.getElementById('detail-img').src = imgSrc;
+
+            // Cargar texto respetando saltos de línea
+            const desc = translations[currentLang]['desc-' + id];
+            document.getElementById('detail-desc').innerHTML = desc.replace(/\n/g, '<br>');
         }
 
         function closeProject() {
