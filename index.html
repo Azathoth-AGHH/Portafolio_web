@@ -256,7 +256,7 @@
             transform: translate(-50%, -50%);
             width: 92%;
             max-width: 1000px; 
-            height: 85vh; /* Se asegura de que la ventana NUNCA pase del 85% de la pantalla */
+            height: 85vh; 
             background-color: var(--modal-bg);
             border: 2px solid var(--text-color); 
             z-index: 1000;
@@ -295,15 +295,15 @@
         .modal-layout-vertical {
             display: flex;
             flex-direction: column;
-            height: 100%; /* Llena el 85vh del contenedor */
+            height: 100%; 
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding-left: 45px; /* Deja espacio para la X */
-            flex-shrink: 0; /* Evita que el encabezado se encoja */
+            padding-left: 45px; 
+            flex-shrink: 0; 
         }
 
         .modal-header-text h2 {
@@ -322,7 +322,7 @@
         :root.light-mode .modal-header-text p { color: #333; }
 
         .modal-center {
-            flex-grow: 1; /* Toma todo el espacio sobrante en el medio automáticamente */
+            flex-grow: 1; 
             background-color: #111;
             padding: 5px;
             border: 2px solid #333; 
@@ -330,8 +330,8 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin: 15px 0; /* Espaciado arriba y abajo del PDF */
-            min-height: 0; /* Necesario para que el iframe no desborde el flexbox */
+            margin: 15px 0; 
+            min-height: 0; 
         }
 
         :root.light-mode .modal-center { background-color: #ddd; border-color: #999;}
@@ -347,7 +347,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0; /* Evita que el pie de página se encoja */
+            flex-shrink: 0; 
         }
 
         .modal-footer p {
@@ -554,13 +554,12 @@
         
         <div class="modal-layout-vertical">
             
-            <!-- Encabezado (Arriba del CV) -->
+            <!-- Encabezado (Arriba del CV) sin el botón -->
             <div class="modal-header">
                 <div class="modal-header-text">
                     <h2 data-i18n="cv-modal-title">Currículum Vitae</h2>
                     <p data-i18n="cv-modal-subtitle">Visualización oficial del documento curricular</p>
                 </div>
-                <a href="Archivos_extras/CV/CV%20Alexis.pdf" download="CV_Alexis_Hernandez.pdf" class="btn-cyan-solid" data-i18n="btn-download-top">⬇ DESCARGAR CV (PDF)</a>
             </div>
             
             <!-- Visor PDF (Se ajusta automáticamente al espacio central) -->
@@ -568,7 +567,7 @@
                 <iframe src="Archivos_extras/CV/CV%20Alexis.pdf#toolbar=0" title="CV Alexis Hernández"></iframe>
             </div>
             
-            <!-- Pie de ventana (Debajo del CV) -->
+            <!-- Pie de ventana (Debajo del CV) con el botón de descarga conservado -->
             <div class="modal-footer">
                 <p data-i18n="cv-modal-info">ℹ ¿Deseas guardar una copia en tu dispositivo? Puedes descargar el documento original en PDF.</p>
                 <a href="Archivos_extras/CV/CV%20Alexis.pdf" download="CV_Alexis_Hernandez.pdf" class="btn-cyan-outline" data-i18n="btn-download-bottom">⬇ DESCARGAR ARCHIVO</a>
