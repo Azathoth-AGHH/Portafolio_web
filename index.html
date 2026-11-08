@@ -3,466 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexis Gethsemani - Portfolio</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
-        :root {
-            --bg-color: #000000;
-            --text-color: #00ffff;
-            --highlight: #ffff00;
-            --border-color: #444;
-            --container-bg: rgba(0, 0, 0, 0.4); 
-            --text-shadow: 1px 1px 2px #000; 
-            --btn-bg: #111;
-            --modal-bg: #050a0e; 
-        }
-
-        :root.light-mode {
-            --bg-color: #00ffff; 
-            --text-color: #000000;
-            --highlight: #00008b;
-            --border-color: #999;
-            --container-bg: rgba(255, 255, 255, 0.5); 
-            --text-shadow: 1px 1px 2px #fff; 
-            --btn-bg: #eee;
-            --modal-bg: #f0f8ff; 
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'VT323', monospace;
-            font-size: 20px;
-            overflow-x: hidden;
-            transition: background-color 0.3s;
-        }
-
-        /* Canvas de estrellas al fondo absoluto */
-        #space-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1; 
-        }
-
-        /* Barra de navegación superior */
-        #top-nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            z-index: 100;
-            text-shadow: var(--text-shadow);
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-logo {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--text-color);
-            object-fit: cover;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.2s;
-            font-size: 22px;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--highlight);
-        }
-
-        .nav-controls button {
-            background: transparent;
-            color: var(--highlight);
-            border: 1px solid var(--border-color);
-            padding: 2px 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 18px;
-            margin-left: 10px;
-            text-shadow: var(--text-shadow);
-        }
-
-        /* Contenedor principal */
-        #main-container {
-            max-width: 1100px;
-            margin: 100px auto 40px auto; 
-            background-color: transparent; 
-            border: none; 
-            padding: 10px 30px;
-            min-height: 80vh;
-            text-shadow: var(--text-shadow);
-        }
-
-        .page-section {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        h1, h2, h3 {
-            color: var(--highlight);
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            border-bottom: 1px dashed var(--text-color);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            font-size: 32px; 
-        }
-
-        @keyframes neon-flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                box-shadow: 0 0 25px var(--text-color);
-                border-color: var(--text-color);
-                opacity: 1;
-            }
-            20%, 24%, 55% {
-                box-shadow: none;
-                border-color: var(--border-color);
-                opacity: 0.8;
-            }
-        }
-
-        .profile-container {
-            display: flex;
-            gap: 50px; 
-            align-items: center; 
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .profile-left {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .profile-pic {
-            width: 280px;
-            height: 280px;
-            border: 4px solid var(--text-color);
-            border-radius: 50%; 
-            object-fit: cover;
-            animation: neon-flicker 4s infinite;
-        }
-
-        .profile-info {
-            flex: 1;
-            min-width: 300px;
-            line-height: 1.5; 
-            text-align: left; 
-            font-size: 22px; 
-        }
-
-        .retro-btn {
-            background-color: var(--btn-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 8px 15px;
-            font-family: inherit;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 15px;
-            text-shadow: none; 
-        }
-        .retro-btn:hover {
-            color: var(--highlight);
-            border-color: var(--highlight);
-        }
-
-        /* Cuadrícula de Proyectos */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 25px;
-        }
-
-        .project-card {
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            text-align: center;
-            background: var(--container-bg); 
-        }
-
-        .project-card:hover {
-            transform: scale(1.05);
-            border-color: var(--highlight);
-            box-shadow: 0 0 10px var(--text-color);
-        }
-
-        .project-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-bottom: 1px dashed var(--border-color);
-            margin-bottom: 10px;
-        }
-
-        /* Diseño de los detalles del proyecto (EXPANDIDO CON IMAGEN) */
-        #project-details {
-            display: none;
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            background: var(--container-bg);
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
-        }
-
-        .detail-layout {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .detail-img-container {
-            flex: 1;
-            min-width: 300px;
-            max-width: 450px;
-        }
-
-        .detail-img-container img {
-            width: 100%;
-            height: auto;
-            border: 2px solid var(--text-color);
-            box-shadow: 0 0 15px var(--text-color);
-            object-fit: cover;
-        }
-
-        .detail-text-container {
-            flex: 2;
-            min-width: 300px;
-        }
-
-        .detail-text-container h2 {
-            font-size: 38px;
-            color: var(--text-color);
-            border-bottom: 1px dashed var(--highlight);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .detail-text-container p {
-            line-height: 1.6;
-            font-size: 22px;
-            color: #ddd;
-        }
-        
-        :root.light-mode .detail-text-container p {
-            color: #222;
-        }
-
-        /* ==================================
-           DISEÑO MODAL CV 
-           ================================== */
-        #cv-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 92%;
-            max-width: 1000px; 
-            height: 85vh; 
-            background-color: var(--modal-bg);
-            border: 2px solid var(--text-color); 
-            z-index: 1000;
-            box-shadow: 0 0 25px var(--text-color); 
-            padding: 20px 30px; 
-            font-family: 'VT323', monospace;
-            box-sizing: border-box;
-        }
-
-        :root.light-mode #cv-modal {
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-        }
-
-        .close-btn-icon {
-            position: absolute;
-            top: 20px;
-            left: 20px; 
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 35px; 
-            cursor: pointer;
-            font-family: Arial, sans-serif; 
-            line-height: 1;
-            font-weight: bold;
-            transition: color 0.3s;
-            z-index: 10;
-        }
-
-        :root.light-mode .close-btn-icon { color: #000; }
-
-        .close-btn-icon:hover {
-            color: var(--text-color);
-        }
-
-        .modal-layout-vertical {
-            display: flex;
-            flex-direction: column;
-            height: 100%; 
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-left: 45px; 
-            flex-shrink: 0; 
-        }
-
-        .modal-header-text h2 {
-            margin: 0;
-            color: var(--text-color); 
-            font-size: 32px; 
-            text-transform: none;
-        }
-
-        .modal-header-text p {
-            margin: 5px 0 0 0;
-            color: var(--highlight); 
-            font-size: 20px; 
-        }
-
-        :root.light-mode .modal-header-text p { color: #333; }
-
-        .modal-center {
-            flex-grow: 1; 
-            background-color: #111;
-            padding: 5px;
-            border: 2px solid #333; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin: 15px 0; 
-            min-height: 0; 
-        }
-
-        :root.light-mode .modal-center { background-color: #ddd; border-color: #999;}
-
-        .modal-center iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background-color: #fff;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0; 
-        }
-
-        .modal-footer p {
-            color: var(--highlight); 
-            font-size: 20px; 
-            margin: 0;
-        }
-
-        :root.light-mode .modal-footer p { color: #333; }
-
-        .btn-cyan-outline {
-            background-color: transparent;
-            color: var(--text-color);
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 20px; 
-            border: 2px solid var(--text-color);
-            transition: all 0.3s;
-            text-align: center;
-            font-family: inherit;
-            display: inline-block;
-            font-weight: bold;
-        }
-
-        .btn-cyan-outline:hover {
-            background-color: var(--text-color);
-            color: #000;
-        }
-
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.85);
-            z-index: 999;
-        }
-        
-        @media (max-width: 800px) {
-            .modal-header, .modal-footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-        }
-    </style>
+    <title>Alexis Gethsemani - Portfolio Institucional</title>
+    <!-- Vinculación del archivo CSS -->
+    <link rel="stylesheet" href="Archivos_extras/Estilos_funciones/estilos.css">
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Animación de fondo -->
-    <canvas id="space-canvas"></canvas>
-
-    <!-- Navegación Superior con Logo -->
+    <!-- Navegación Superior Institucional -->
     <nav id="top-nav">
         <div class="nav-left">
-            <img src="Archivos_extras/Fotos_perfil/logo.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+            <img src="Archivos_extras/Fotos_perfil/logo.jpg" alt="Logo Alexis" class="nav-logo" onerror="this.style.display='none'">
             <div class="nav-links">
-                <a onclick="navigate('inicio')" id="link-inicio" class="active">☆ <span data-i18n="nav-home">Inicio</span></a>
-                <a onclick="navigate('sobre-mi')" id="link-sobre-mi">☆ <span data-i18n="nav-about">Sobre mí</span></a>
-                <a onclick="navigate('proyectos')" id="link-proyectos">☆ <span data-i18n="nav-projects">Proyectos</span></a>
-                <a onclick="navigate('contactos')" id="link-contactos">☆ <span data-i18n="nav-contacts">Contactos</span></a>
+                <a onclick="navigate('inicio')" id="link-inicio" class="active" data-i18n="nav-home">Inicio</a>
+                <a onclick="navigate('sobre-mi')" id="link-sobre-mi" data-i18n="nav-about">Sobre mí</a>
+                <a onclick="navigate('proyectos')" id="link-proyectos" data-i18n="nav-projects">Proyectos</a>
+                <a onclick="navigate('enlaces')" id="link-enlaces" data-i18n="nav-links">Enlaces</a>
+                <a onclick="navigate('contactos')" id="link-contactos" data-i18n="nav-contacts">Contactos</a>
             </div>
         </div>
         <div class="nav-controls">
-            <button onclick="toggleTheme()" data-i18n="btn-theme">[ ☀/☾ Tema ]</button>
-            <button onclick="toggleLanguage()">[ ES / EN ]</button>
+            <button onclick="toggleTheme()" data-i18n="btn-theme">Modo Oscuro</button>
+            <button onclick="toggleLanguage()">ES / EN</button>
+            <img src="Archivos_extras/Logos_institucionales/Logo_de_la_UAEMex.svg.webp" alt="Escudo UAEMéx" class="nav-uaemex-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/4/4c/Escudo_de_la_Universidad_Aut%C3%B3noma_del_Estado_de_M%C3%A9xico.svg'">
         </div>
     </nav>
 
@@ -471,58 +35,108 @@
 
         <!-- SECCIÓN: INICIO -->
         <section id="inicio" class="page-section active">
-            <h1 class="section-title" data-i18n="title-home">/home/alexis/inicio</h1>
+            <h1 class="section-title" data-i18n="title-home">Inicio</h1>
             
             <div class="profile-container">
                 <div class="profile-left">
                     <img src="Archivos_extras/Fotos_perfil/foto-perfil.jpeg" alt="Alexis Gethsemani" class="profile-pic" onerror="this.style.display='none'">
-                    
-                    <div style="text-align: center; margin-top: 20px; max-width: 280px;">
-                        <p data-i18n="profile-title" style="font-size: 24px; line-height: 1.2; color: var(--highlight);">Ing. en Software Alexis Gethsemani Hernández Hernández</p>
+                    <div style="text-align: center; margin-top: 20px; max-width: 300px;">
+                        <p data-i18n="profile-title" style="font-size: 20px; font-weight: bold; line-height: 1.3; color: var(--highlight);">Estudiante de Ing. en Software<br>Alexis Gethsemani Hernández Hernández</p>
+                        <p style="font-size: 16px; color: var(--uaemex-gold); font-weight: 500; margin-top: 5px;">Universidad Autónoma del Estado de México</p>
                     </div>
-                    
-                    <button class="retro-btn" onclick="openCV()" data-i18n="btn-view-cv">[ Ver CV ]</button>
+                    <button class="inst-btn" onclick="openCV()" data-i18n="btn-view-cv">Ver Documento Curricular</button>
                 </div>
                 
                 <div class="profile-info">
-                    <h2 data-i18n="welcome-title" style="font-size: 36px;">Bienvenidos a mi Portal web.</h2>
-                    <p data-i18n="welcome-desc">Soy Alexis Gethsemani Hernandez Hernandez, desarrollador enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, así como mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas. Mi objetivo es seguir creciendo profesionalmente, aportar valor a cada proyecto y contribuir al desarrollo de soluciones innovadoras que respondan a las necesidades reales de las organizaciones.</p>
+                    <h2 data-i18n="welcome-title" style="font-size: 32px; color: var(--highlight);">Bienvenidos a mi Portal Académico y Profesional</h2>
+                    <p data-i18n="welcome-desc">Soy Alexis Gethsemani Hernandez Hernandez, estudiante de quinto semestre de Ingeniería de Software en la UAEMéx, enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos académicos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, demostrando mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas que respondan a las necesidades del entorno institucional y empresarial.</p>
                 </div>
             </div>
         </section>
 
         <!-- SECCIÓN: SOBRE MÍ -->
         <section id="sobre-mi" class="page-section">
-            <h1 class="section-title" data-i18n="title-about">/home/alexis/sobre_mi</h1>
-            <p data-i18n="about-p1">¡Hola! Soy desarrollador de software en formación con un enfoque práctico en la resolución de problemas y la creación de soluciones eficientes.</p><br>
+            <h1 class="section-title" data-i18n="title-about">Perfil Profesional y Académico</h1>
             
-            <h3 data-i18n="skills-title">> HABILIDADES TÉCNICAS:</h3>
-            <ul style="list-style: square; padding-left: 20px; line-height: 1.8;">
-                <li>Java (Multithreading, JavaFX, OOP)</li>
-                <li>Bases de Datos (MySQL, Modelado de datos)</li>
-                <li>Redes (Cisco Packet Tracer, VLANs, Subnetting)</li>
-                <li>Metodologías (RUP, Spiral, UML Diagrams)</li>
-                <li>Hardware Básico (Arduino, Circuitos)</li>
-            </ul>
+            <div class="profile-info" style="max-width: 100%; margin-bottom: 30px;">
+                <p data-i18n="about-text-extended" style="text-align: justify; line-height: 1.8; font-size: 18px;">
+                    Me he formado sólidamente en la <strong>Universidad Autónoma del Estado de México (UAEMéx)</strong>, desarrollando un perfil enfocado en la ingeniería de software de alta calidad, la gestión eficiente de proyectos y la innovación tecnológica. Asimismo, integro de forma activa el <strong>uso de diferentes Inteligencias Artificiales (IAs)</strong> como herramientas clave para potenciar la productividad, el análisis de requerimientos, la optimización de código y la toma de decisiones informadas.
+                </p>
+            </div>
+
+            <!-- Contenedor en Cajas / Tarjetas Diferentes -->
+            <div class="info-boxes-grid">
+                <div class="info-box-card">
+                    <h3 data-i18n="box-leadership-title"><i class="fa-solid fa-users-gear" style="color: var(--uaemex-gold); margin-right: 10px;"></i> Liderazgo de Grupos</h3>
+                    <p data-i18n="box-leadership-desc">Capacidad demostrada para coordinar y guiar equipos de trabajo multidisciplinarios, fomentando la colaboración activa, organizando tareas técnicas y orientando los esfuerzos grupales hacia el cumplimiento exitoso de los objetivos institucionales y de desarrollo de software.</p>
+                </div>
+
+                <div class="info-box-card">
+                    <h3 data-i18n="box-conflict-title"><i class="fa-solid fa-scale-balanced" style="color: var(--uaemex-gold); margin-right: 10px;"></i> Resolución de Conflictos</h3>
+                    <p data-i18n="box-conflict-desc">Habilidad analítica para identificar discrepancias técnicas u organizacionales de manera oportuna, aplicando una comunicación asertiva, negociación y mediación estratégica para transformar los desafíos en soluciones funcionales y armoniosas dentro del equipo.</p>
+                </div>
+            </div>
+            
+            <h3 data-i18n="skills-title" style="margin: 40px 0 25px 0;">Habilidades Técnicas y Competencias (Clic para ver certificado):</h3>
+            
+            <!-- Cuadrícula de Habilidades / Botones -->
+            <div class="skills-grid">
+                <button class="skill-btn" onclick="openCert('java')">
+                    <i class="fa-brands fa-java skill-icon"></i>
+                    <span>Java SE</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('python')">
+                    <i class="fa-brands fa-python skill-icon"></i>
+                    <span>Python</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('c')">
+                    <i class="fa-solid fa-code skill-icon"></i>
+                    <span>C / C++</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('mysql')">
+                    <i class="fa-solid fa-database skill-icon"></i>
+                    <span>MySQL</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('cisco')">
+                    <i class="fa-solid fa-network-wired skill-icon"></i>
+                    <span>Cisco / Redes</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('git')">
+                    <i class="fa-brands fa-github skill-icon"></i>
+                    <span>Git / GitHub</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('ia')">
+                    <i class="fa-solid fa-robot skill-icon"></i>
+                    <span>IA y Prompting</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('arduino')">
+                    <i class="fa-solid fa-microchip skill-icon"></i>
+                    <span>Arduino</span>
+                </button>
+                <button class="skill-btn" onclick="openCert('ingles')">
+                    <i class="fa-solid fa-language skill-icon"></i>
+                    <span>Inglés</span>
+                </button>
+            </div>
         </section>
 
         <!-- SECCIÓN: PROYECTOS -->
         <section id="proyectos" class="page-section">
-            <h1 class="section-title" data-i18n="title-projects">/home/alexis/proyectos</h1>
+            <h1 class="section-title" data-i18n="title-projects">Proyectos Académicos</h1>
             
-            <div id="projects-list" class="projects-grid">
-                <div class="project-card" onclick="showProject('optem')">
-                    <img src="Archivos_extras/Fotos_proyectos/OPTEM.jpeg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+            <div id="projects-list" class="grid-container">
+                <div class="card" onclick="showProject('optem')">
+                    <img src="Archivos_extras/Fotos_proyectos/OPTEM.jpeg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
                     <h3>OPTEM</h3>
                     <p data-i18n="proj-optem-short">Agenda académica virtual</p>
                 </div>
-                <div class="project-card" onclick="showProject('joda')">
-                    <img src="Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+                <div class="card" onclick="showProject('joda')">
+                    <img src="Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
                     <h3>Compilador JODA</h3>
                     <p data-i18n="proj-joda-short">Diseño de lenguaje y compilador</p>
                 </div>
-                <div class="project-card" onclick="showProject('libros')">
-                    <img src="Archivos_extras/Fotos_proyectos/De_libros.jpeg" alt="Proyecto De Libros" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#333\' width=\'100%\' height=\'120\'></svg>'">
+                <div class="card" onclick="showProject('libros')">
+                    <img src="Archivos_extras/Fotos_proyectos/De_libros.jpeg" alt="Proyecto De Libros" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
                     <h3 data-i18n="proj-libros-title">De Libros</h3>
                     <p data-i18n="proj-libros-short">Plataforma de biblioteca digital</p>
                 </div>
@@ -530,181 +144,252 @@
 
             <!-- VISTA EXPANDIDA DEL PROYECTO -->
             <div id="project-details">
-                <button class="retro-btn" onclick="closeProject()" data-i18n="btn-back">[ <-- Volver a Proyectos ]</button>
-                
+                <button class="inst-btn" onclick="closeProject()" data-i18n="btn-back" style="margin-bottom: 20px;">Volver al Catálogo</button>
                 <div class="detail-layout">
-                    <!-- Imagen del proyecto a la izquierda -->
                     <div class="detail-img-container">
-                        <img id="detail-img" src="" alt="Imagen detallada del proyecto">
+                        <img id="detail-img" src="" alt="Imagen detallada">
                     </div>
-                    
-                    <!-- Texto explicativo a la derecha -->
                     <div class="detail-text-container">
                         <h2 id="detail-title">Título</h2>
-                        <p id="detail-desc">Descripción detallada del proyecto...</p>
+                        <p id="detail-desc">Descripción...</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECCIÓN: ENLACES INSTITUCIONALES -->
+        <section id="enlaces" class="page-section">
+            <h1 class="section-title" data-i18n="title-links">Enlaces de Interés UAEMéx</h1>
+            <p style="margin-bottom: 30px; font-size: 18px;" data-i18n="links-desc">Accesos directos a los principales portales de la Universidad Autónoma del Estado de México y comunidades académicas.</p>
+            
+            <div class="grid-container">
+                <a href="https://www.uaemex.mx/" target="_blank" class="card enlace-card">
+                    <div class="enlace-icon">🏛️</div>
+                    <h3 data-i18n="link-uaemex">Portal Oficial UAEMéx</h3>
+                    <p>uaemex.mx</p>
+                </a>
+                <a href="https://ri.uaemex.mx/" target="_blank" class="card enlace-card">
+                    <div class="enlace-icon">📚</div>
+                    <h3 data-i18n="link-ri">Repositorio Institucional</h3>
+                    <p>ri.uaemex.mx</p>
+                </a>
+                <a href="https://nuevoingreso.uaemex.mx/posgrado/oferta" target="_blank" class="card enlace-card">
+                    <div class="enlace-icon">🎓</div>
+                    <h3 data-i18n="link-posgrados">Posgrados UAEMéx</h3>
+                    <p data-i18n="link-posgrados-desc">Oferta de estudios avanzados</p>
+                </a>
+                <a href="http://cutianguistenco.uaemex.mx/" target="_blank" class="card enlace-card">
+                    <div class="enlace-icon">🏫</div>
+                    <h3 data-i18n="link-cut">Posgrados CUT Tianguistenco</h3>
+                    <p data-i18n="link-cut-desc">Centro Universitario UAEM Tianguistenco</p>
+                </a>
+                <a href="https://www.facebook.com/uaptianguistenco?locale=es_LA" target="_blank" class="card enlace-card">
+                    <div class="enlace-icon">💻</div>
+                    <h3 data-i18n="link-fb">Ingeniería de Software</h3>
+                    <p data-i18n="link-fb-desc">Página Oficial en Facebook</p>
+                </a>
+            </div>
+        </section>
+
         <!-- SECCIÓN: CONTACTOS -->
         <section id="contactos" class="page-section">
-            <h1 class="section-title" data-i18n="title-contacts">/home/alexis/contactos</h1>
+            <h1 class="section-title" data-i18n="title-contacts">Información de Contacto</h1>
             
-            <div style="margin-bottom: 25px;">
-                <p data-i18n="contact-desc" style="margin-bottom: 10px;">Redes sociales y contacto directo:</p>
-                <ul style="list-style: square; padding-left: 20px; line-height: 1.8;">
-                    <li>Facebook: <a href="https://www.facebook.com/alexis.hernandez.536341?locale=es_LA" target="_blank" style="color: var(--text-color); text-decoration: none;">alexis.hernandez.536341</a></li>
-                    <li>Instagram: <a href="https://www.instagram.com/alexis_gethse/" target="_blank" style="color: var(--text-color); text-decoration: none;">@alexis_gethse</a></li>
-                    <li>GitHub: <a href="https://github.com/Azathoth-AGHH" target="_blank" style="color: var(--text-color); text-decoration: none;">Azathoth-AGHH</a></li>
-                    <li>Email: <a href="mailto:alexisgethsemani@gmail.com" style="color: var(--text-color); text-decoration: none;">alexisgethsemani@gmail.com</a></li>
+            <div style="margin-bottom: 40px;">
+                <p data-i18n="contact-desc" style="margin-bottom: 15px; font-weight: 500;">Canales de comunicación directa:</p>
+                <ul style="list-style: none; padding-left: 0; line-height: 2;">
+                    <li><strong style="color: var(--uaemex-gold);">■</strong> Email Institucional / Personal: <a href="mailto:alexisgethsemani@gmail.com" style="color: var(--highlight); text-decoration: none; font-weight: bold;">alexisgethsemani@gmail.com</a></li>
+                    <li><strong style="color: var(--uaemex-gold);">■</strong> GitHub: <a href="https://github.com/Azathoth-AGHH" target="_blank" style="color: var(--highlight); text-decoration: none;">Azathoth-AGHH</a></li>
+                    <li><strong style="color: var(--uaemex-gold);">■</strong> LinkedIn / Redes: <a href="https://www.linkedin.com/" target="_blank" style="color: var(--highlight); text-decoration: none;">Perfil Profesional</a></li>
                 </ul>
             </div>
 
-            <div style="border: 1px dashed var(--border-color); padding: 15px; background: var(--container-bg);">
-                <p style="margin-bottom: 15px; color: var(--highlight);" data-i18n="form-title">> ENVIAR MENSAJE (SIMULACIÓN)</p>
+            <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; background: var(--container-bg); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--uaemex-green); border-bottom: 2px solid var(--uaemex-gold); padding-bottom: 10px; margin-bottom: 25px;" data-i18n="form-title">Formulario de Contacto</h3>
                 
                 <form id="contact-form" onsubmit="handleFormSubmit(event)">
-                    <div style="margin-bottom: 12px;">
-                        <label data-i18n="form-email" style="display: inline-block; width: 90px;">Correo:</label>
-                        <input type="email" placeholder="tu@correo.com" style="width: calc(100% - 100px); max-width: 300px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 5px; font-family: inherit;" required>
+                    <div style="margin-bottom: 15px;">
+                        <label data-i18n="form-email" style="display: block; margin-bottom: 5px; font-weight: 500;">Correo Electrónico:</label>
+                        <input type="email" placeholder="ejemplo@correo.com" style="width: 100%; max-width: 400px; border-radius: 4px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; font-family: inherit;" required>
                     </div>
-                    
-                    <div style="margin-bottom: 12px;">
-                        <label data-i18n="form-subject" style="display: inline-block; width: 90px;">Asunto:</label>
-                        <input type="text" placeholder="..." style="width: calc(100% - 100px); max-width: 300px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 5px; font-family: inherit;" required>
+                    <div style="margin-bottom: 15px;">
+                        <label data-i18n="form-subject" style="display: block; margin-bottom: 5px; font-weight: 500;">Asunto:</label>
+                        <input type="text" placeholder="Motivo de contacto" style="width: 100%; max-width: 400px; border-radius: 4px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; font-family: inherit;" required>
                     </div>
-
-                    <div style="margin-bottom: 12px;">
-                        <label data-i18n="form-msg" style="display: inline-block; width: 90px; vertical-align: top;">Mensaje:</label>
-                        <textarea placeholder="..." style="width: calc(100% - 100px); max-width: 300px; height: 70px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 5px; font-family: inherit; resize: none;" required></textarea>
+                    <div style="margin-bottom: 20px;">
+                        <label data-i18n="form-msg" style="display: block; margin-bottom: 5px; font-weight: 500;">Mensaje:</label>
+                        <textarea placeholder="Escriba su mensaje aquí..." style="width: 100%; max-width: 400px; height: 100px; border-radius: 4px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; font-family: inherit; resize: vertical;" required></textarea>
                     </div>
-
-                    <button type="submit" class="retro-btn" data-i18n="form-send" style="margin-left: 95px; margin-top: 5px;">[ Enviar ]</button>
-                    <span id="form-feedback" style="display: none; color: #0f0; margin-left: 10px; font-weight: bold;">[ OK ] Mensaje enviado.</span>
+                    <button type="submit" class="inst-btn" data-i18n="form-send">Enviar Mensaje</button>
+                    <span id="form-feedback" style="display: none; color: var(--uaemex-green); margin-left: 15px; font-weight: bold;">✓ Mensaje enviado correctamente.</span>
                 </form>
             </div>
         </section>
 
     </div>
 
-    <!-- MODAL CURRICULUM DISEÑO VERTICAL -->
+    <!-- MODAL CURRICULUM INSTITUCIONAL -->
     <div class="modal-backdrop" id="cv-backdrop" onclick="closeCV()"></div>
     <div id="cv-modal">
-        <!-- X en la esquina superior izquierda -->
         <button class="close-btn-icon" onclick="closeCV()">✖</button>
-        
         <div class="modal-layout-vertical">
-            
-            <!-- Encabezado (Arriba del CV) SIN botón de descarga -->
             <div class="modal-header">
                 <div class="modal-header-text">
                     <h2 data-i18n="cv-modal-title">Currículum Vitae</h2>
-                    <p data-i18n="cv-modal-subtitle">Visualización oficial del documento curricular</p>
+                    <p data-i18n="cv-modal-subtitle">Documento de perfil profesional y trayectoria académica</p>
                 </div>
             </div>
-            
-            <!-- Visor PDF (Se ajusta automáticamente al espacio central) -->
             <div class="modal-center">
                 <iframe src="Archivos_extras/CV/CV%20Alexis.pdf#toolbar=0" title="CV Alexis Hernández"></iframe>
             </div>
-            
-            <!-- Pie de ventana (Debajo del CV) CON el botón de descarga -->
             <div class="modal-footer">
-                <p data-i18n="cv-modal-info">ℹ ¿Deseas guardar una copia en tu dispositivo? Puedes descargar el documento original en PDF.</p>
-                <a href="Archivos_extras/CV/CV%20Alexis.pdf" download="CV_Alexis_Hernandez.pdf" class="btn-cyan-outline" data-i18n="btn-download-bottom">⬇ DESCARGAR ARCHIVO</a>
+                <p data-i18n="cv-modal-info">Puede guardar una copia oficial de este documento en formato PDF.</p>
+                <a href="Archivos_extras/CV/CV%20Alexis.pdf" download="CV_Alexis_Hernandez.pdf" class="btn-outline" data-i18n="btn-download-bottom">Descargar Documento</a>
             </div>
+        </div>
+    </div>
 
+    <!-- MODAL DE CERTIFICADOS AMPLIADOS -->
+    <div class="modal-backdrop" id="cert-backdrop" onclick="closeCert()"></div>
+    <div id="cert-modal" class="image-zoom-modal">
+        <button class="close-btn-icon" onclick="closeCert()">✖</button>
+        <div class="modal-zoom-content">
+            <img id="cert-modal-img" src="" alt="Certificado">
+            <p class="cert-warning" data-i18n="cert-warning">Este documento es solo para fines de prueba y no tiene validez oficial.</p>
         </div>
     </div>
 
     <script>
+        const certificates = {
+            java: "Archivos_extras/Certificados_falsos/Certificado_java.jpg",
+            mysql: "Archivos_extras/Certificados_falsos/Certificado_MySQL.jpg",
+            c: "Archivos_extras/Certificados_falsos/Certificado_C.jpg",
+            cisco: "Archivos_extras/Certificados_falsos/Certificado_Cisco.jpg",
+            arduino: "Archivos_extras/Certificados_falsos/Certificado_Arduino.jpg",
+            python: "Archivos_extras/Certificados_falsos/Certificado_Python.jpg",
+            git: "Archivos_extras/Certificados_falsos/Certificado_Git.jpg",
+            ia: "Archivos_extras/Certificados_falsos/Certificado_IA.jpg",
+            ingles: "Archivos_extras/Certificados_falsos/Certificado_Ingles.jpg"
+        };
+
+        function openCert(certId) {
+            const imgSrc = certificates[certId];
+            if(imgSrc) {
+                document.getElementById('cert-modal-img').src = imgSrc;
+                document.getElementById('cert-modal').style.display = 'block';
+                document.getElementById('cert-backdrop').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeCert() {
+            document.getElementById('cert-modal').style.display = 'none';
+            document.getElementById('cert-backdrop').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
         const translations = {
             es: {
                 "nav-home": "Inicio",
                 "nav-about": "Sobre mí",
                 "nav-projects": "Proyectos",
+                "nav-links": "Enlaces",
                 "nav-contacts": "Contactos",
-                "btn-theme": "[ ☀/☾ Tema ]",
-                "title-home": "/home/alexis/inicio",
-                
-                "profile-title": "Ing. en Software Alexis Gethsemani Hernández Hernández",
-                "welcome-title": "Bienvenidos a mi Portal web.",
-                "welcome-desc": "Soy Alexis Gethsemani Hernandez Hernandez, desarrollador enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, así como mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas. Mi objetivo es seguir creciendo profesionalmente, aportar valor a cada proyecto y contribuir al desarrollo de soluciones innovadoras que respondan a las necesidades reales de las organizaciones.",
-                
-                "btn-view-cv": "[ Ver CV ]",
-                "title-about": "/home/alexis/sobre_mi",
-                "about-p1": "¡Hola! Soy desarrollador de software en formación con un enfoque práctico en la resolución de problemas y la creación de soluciones eficientes.",
-                "skills-title": "> HABILIDADES TÉCNICAS:",
-                "title-projects": "/home/alexis/proyectos",
-                
+                "btn-theme": "Modo Oscuro",
+                "title-home": "Inicio",
+                "profile-title": "Estudiante de Ing. en Software<br>Alexis Gethsemani Hernández Hernández",
+                "welcome-title": "Bienvenidos a mi Portal Académico y Profesional",
+                "welcome-desc": "Soy Alexis Gethsemani Hernandez Hernandez, estudiante de quinto semestre de Ingeniería de Software en la UAEMéx, enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos académicos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, demostrando mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas que respondan a las necesidades del entorno institucional y empresarial.",
+                "btn-view-cv": "Ver Documento Curricular",
+                "title-about": "Perfil Profesional y Académico",
+                "about-text-extended": "Me he formado sólidamente en la <strong>Universidad Autónoma del Estado de México (UAEMéx)</strong>, desarrollando un perfil enfocado en la ingeniería de software de alta calidad, la gestión eficiente de proyectos y la innovación tecnológica. Asimismo, integro de forma activa el <strong>uso de diferentes Inteligencias Artificiales (IAs)</strong> como herramientas clave para potenciar la productividad, el análisis de requerimientos, la optimización de código y la toma de decisiones informadas.",
+                "box-leadership-title": "Liderazgo de Grupos",
+                "box-leadership-desc": "Capacidad demostrada para coordinar y guiar equipos de trabajo multidisciplinarios, fomentando la colaboración activa, organizando tareas técnicas y orientando los esfuerzos grupales hacia el cumplimiento exitoso de los objetivos institucionales y de desarrollo de software.",
+                "box-conflict-title": "Resolución de Conflictos",
+                "box-conflict-desc": "Habilidad analítica para identificar discrepancias técnicas u organizacionales de manera oportuna, aplicando una comunicación asertiva, negociación y mediación estratégica para transformar los desafíos en soluciones funcionales y armoniosas dentro del equipo.",
+                "skills-title": "Habilidades Técnicas y Competencias (Clic para ver certificado):",
+                "cert-warning": "Este documento es solo para fines de prueba y no tiene validez oficial.",
+                "title-projects": "Proyectos Académicos",
                 "proj-optem-short": "Agenda académica virtual",
                 "proj-joda-short": "Diseño de lenguaje y compilador",
                 "proj-libros-title": "De Libros",
                 "proj-libros-short": "Plataforma de biblioteca digital",
-                
-                "btn-back": "[ <-- Volver a Proyectos ]",
-                "title-contacts": "/home/alexis/contactos",
-                "contact-desc": "Redes sociales y contacto directo:",
-                "form-title": "> ENVIAR MENSAJE (SIMULACIÓN)",
-                "form-email": "Correo:",
+                "btn-back": "Volver al Catálogo",
+                "title-links": "Enlaces de Interés UAEMéx",
+                "links-desc": "Accesos directos a los principales portales de la Universidad Autónoma del Estado de México y comunidades académicas.",
+                "link-uaemex": "Portal Oficial UAEMéx",
+                "link-ri": "Repositorio Institucional",
+                "link-posgrados": "Posgrados UAEMéx",
+                "link-posgrados-desc": "Oferta de estudios avanzados",
+                "link-cut": "Posgrados CUT Tianguistenco",
+                "link-cut-desc": "Centro Universitario UAEM Tianguistenco",
+                "link-fb": "Ingeniería de Software",
+                "link-fb-desc": "Página Oficial en Facebook",
+                "title-contacts": "Información de Contacto",
+                "contact-desc": "Canales de comunicación directa:",
+                "form-title": "Formulario de Contacto",
+                "form-email": "Correo Electrónico:",
                 "form-subject": "Asunto:",
                 "form-msg": "Mensaje:",
-                "form-send": "[ Enviar ]",
-                
+                "form-send": "Enviar Mensaje",
                 "cv-modal-title": "Currículum Vitae",
-                "cv-modal-subtitle": "Visualización oficial del documento curricular",
-                "cv-modal-info": "ℹ ¿Deseas guardar una copia en tu dispositivo? Puedes descargar el documento original en PDF.",
-                "btn-download-bottom": "⬇ DESCARGAR ARCHIVO",
-
-                "desc-optem": "> TECNOLOGÍAS: Java, JavaFX, Maven.\n\nOPTEM es una avanzada agenda académica virtual de escritorio diseñada específicamente para optimizar la organización y productividad estudiantil. Desarrollada íntegramente en Java, utiliza JavaFX para construir una interfaz gráfica moderna e interactiva, apoyada en Maven para la gestión robusta de dependencias.\n\nEl sistema incorpora innovadoras herramientas como widgets personalizados de escritorio, temporizadores Pomodoro integrados para la gestión de sesiones de estudio, y mecánicas de gamificación que motivan al usuario a cumplir sus metas diarias. La arquitectura del software garantiza un rendimiento fluido, modularidad y una experiencia altamente amigable.",
-                
-                "desc-joda": "> TECNOLOGÍAS: Java, JavaFX, Maven.\n\nCompilador JODA representa el desafío arquitectónico de diseñar e implementar un lenguaje de programación completamente nuevo desde cero. Este proyecto abarca la construcción algorítmica de su propio compilador, cubriendo las fases completas de análisis léxico, análisis sintáctico y análisis semántico.\n\nConstruido sobre una sólida base en Java, interfaces visuales en JavaFX y orquestado con Maven, JODA es una demostración profunda de conocimientos avanzados en teoría de autómatas, estructuras de datos complejas, gramáticas formales y el diseño interno del procesamiento de lenguajes informáticos.",
-                
-                "desc-libros": "> TECNOLOGÍAS: Java, JavaFX, Maven.\n\nDe Libros es una plataforma integral de biblioteca digital concebida para la gestión, lectura y organización estructurada de recursos literarios y acervos bibliográficos.\n\nDesarrollado en el robusto ecosistema de Java, el software emplea JavaFX para brindar una interfaz visual estéticamente fluida y agradable, mientras que Maven se encarga del control del ciclo de vida y empaquetado del proyecto. La aplicación permite un manejo sumamente eficiente de catálogos de libros, incorpora un sistema de búsquedas filtradas y proporciona un entorno inmersivo para los lectores, destacando la sólida aplicación de patrones de diseño orientado a objetos y buenas prácticas de ingeniería de software."
+                "cv-modal-subtitle": "Documento de perfil profesional y trayectoria académica",
+                "cv-modal-info": "Puede guardar una copia oficial de este documento en formato PDF.",
+                "btn-download-bottom": "Descargar Documento",
+                "desc-optem": "<strong>TECNOLOGÍAS:</strong> Java, JavaFX, Maven.<br><br>OPTEM es una avanzada agenda académica virtual de escritorio diseñada específicamente para optimizar la organización y productividad estudiantil. Desarrollada íntegramente en Java, utiliza JavaFX para construir una interfaz gráfica moderna e interactiva, apoyada en Maven para la gestión robusta de dependencias.<br><br>El sistema incorpora innovadoras herramientas como widgets personalizados de escritorio, temporizadores Pomodoro integrados para la gestión de sesiones de estudio, y mecánicas de gamificación que motivan al usuario a cumplir sus metas diarias. La arquitectura del software garantiza un rendimiento fluido, modularidad y una experiencia altamente amigable.",
+                "desc-joda": "<strong>TECNOLOGÍAS:</strong> Java, JavaFX, Maven.<br><br>Compilador JODA representa el desafío arquitectónico de diseñar e implementar un lenguaje de programación completamente nuevo desde cero. Este proyecto abarca la construcción algorítmica de su propio compilador, cubriendo las fases completas de análisis léxico, análisis sintáctico y análisis semántico.<br><br>Construido sobre una sólida base en Java, interfaces visuales en JavaFX y orquestado con Maven, JODA es una demostración profunda de conocimientos avanzados en teoría de autómatas, estructuras de datos complejas, gramáticas formales y el diseño interno del procesamiento de lenguajes informáticos.",
+                "desc-libros": "<strong>TECNOLOGÍAS:</strong> Java, JavaFX, Maven.<br><br>De Libros es una plataforma integral de biblioteca digital concebida para la gestión, lectura y organización estructurada de recursos literarios y acervos bibliográficos.<br><br>Desarrollado en el robusto ecosistema de Java, el software emplea JavaFX para brindar una interfaz visual estéticamente fluida y agradable, mientras que Maven se encarga del control del ciclo de vida y empaquetado del proyecto. La aplicación permite un manejo sumamente eficiente de catálogos de libros, incorpora un sistema de búsquedas filtradas y proporciona un entorno inmersivo para los lectores, destacando la sólida aplicación de patrones de diseño orientado a objetos y buenas prácticas de ingeniería de software."
             },
             en: {
                 "nav-home": "Home",
                 "nav-about": "About me",
                 "nav-projects": "Projects",
+                "nav-links": "Links",
                 "nav-contacts": "Contacts",
-                "btn-theme": "[ ☀/☾ Theme ]",
-                "title-home": "/home/alexis/home",
-                
-                "profile-title": "Software Eng. Alexis Gethsemani Hernández Hernández",
-                "welcome-title": "Welcome to my Web Portal.",
-                "welcome-desc": "I am Alexis Gethsemani Hernandez Hernandez, a developer focused on creating technological solutions, system design, and efficient problem solving. I specialize in analyzing challenges, identifying opportunities for improvement, and developing functional solutions through programming, software best practices, and the strategic use of Artificial Intelligence tools. In this portal you will find my projects, technical skills, and experience in systems analysis, design, and development, as well as my ability to adapt to new challenges, optimize processes, and transform ideas into concrete solutions. My goal is to continue growing professionally, add value to each project, and contribute to the development of innovative solutions that respond to the real needs of organizations.",
-                
-                "btn-view-cv": "[ View CV ]",
-                "title-about": "/home/alexis/about_me",
-                "about-p1": "Hello! I'm a software developer in training with a practical approach to problem-solving and creating efficient solutions.",
-                "skills-title": "> TECHNICAL SKILLS:",
-                "title-projects": "/home/alexis/projects",
-                
+                "btn-theme": "Dark Mode",
+                "title-home": "Home",
+                "profile-title": "Software Engineering Student<br>Alexis Gethsemani Hernández Hernández",
+                "welcome-title": "Welcome to my Academic & Professional Portal",
+                "welcome-desc": "I am Alexis Gethsemani Hernandez Hernandez, a 5th-semester Software Engineering student at UAEMéx, focused on creating technological solutions, system design, and efficient problem-solving. I specialize in analyzing challenges, identifying improvement opportunities, and developing functional solutions using programming best practices and AI tools. Here you will find my academic projects, technical skills, and experience in software analysis and design, demonstrating my ability to adapt to new challenges, optimize processes, and deliver solutions tailored to institutional needs.",
+                "btn-view-cv": "View Curriculum Vitae",
+                "title-about": "Professional & Academic Profile",
+                "about-text-extended": "I have solid training at the <strong>Universidad Autónoma del Estado de México (UAEMéx)</strong>, developing a profile focused on high-quality software engineering, efficient project management, and technological innovation. Additionally, I actively integrate the <strong>use of different Artificial Intelligences (AIs)</strong> as key tools to boost productivity, requirements analysis, code optimization, and informed decision-making.",
+                "box-leadership-title": "Group Leadership",
+                "box-leadership-desc": "Demonstrated ability to coordinate and guide multidisciplinary work teams, fostering active collaboration, organizing technical tasks, and directing group efforts toward the successful fulfillment of institutional and software development goals.",
+                "box-conflict-title": "Conflict Resolution",
+                "box-conflict-desc": "Analytical skill to identify technical or organizational discrepancies in a timely manner, applying assertive communication, negotiation, and strategic mediation to transform challenges into functional and harmonious solutions within the team.",
+                "skills-title": "Technical Skills & Competencies (Click to view certificate):",
+                "cert-warning": "This document is for testing purposes only and has no official validity.",
+                "title-projects": "Academic Projects",
                 "proj-optem-short": "Virtual academic planner",
                 "proj-joda-short": "Language & compiler design",
                 "proj-libros-title": "De Libros",
                 "proj-libros-short": "Digital library platform",
-                
-                "btn-back": "[ <-- Back to Projects ]",
-                "title-contacts": "/home/alexis/contacts",
-                "contact-desc": "Social media and direct contact:",
-                "form-title": "> SEND MESSAGE (SIMULATION)",
-                "form-email": "Email:",
+                "btn-back": "Back to Catalog",
+                "title-links": "UAEMéx Institutional Links",
+                "links-desc": "Quick access to the main portals of the Universidad Autónoma del Estado de México and academic communities.",
+                "link-uaemex": "UAEMéx Official Portal",
+                "link-ri": "Institutional Repository",
+                "link-posgrados": "UAEMéx Postgraduates",
+                "link-posgrados-desc": "Advanced studies catalog",
+                "link-cut": "CUT Tianguistenco Postgraduates",
+                "link-cut-desc": "UAEM Tianguistenco University Center",
+                "link-fb": "Software Engineering",
+                "link-fb-desc": "Official Facebook Page",
+                "title-contacts": "Contact Information",
+                "contact-desc": "Direct communication channels:",
+                "form-title": "Contact Form",
+                "form-email": "Email Address:",
                 "form-subject": "Subject:",
                 "form-msg": "Message:",
-                "form-send": "[ Send ]",
-                
-                "cv-modal-title": "Resume / CV",
-                "cv-modal-subtitle": "Official view of the curriculum document",
-                "cv-modal-info": "ℹ Do you want to save a copy on your device? You can download the original PDF document.",
-                "btn-download-bottom": "⬇ DOWNLOAD FILE",
-
-                "desc-optem": "> TECHNOLOGIES: Java, JavaFX, Maven.\n\nOPTEM is an advanced virtual desktop academic planner specifically designed to optimize student organization and productivity. Developed entirely in Java, it uses JavaFX to build a modern and interactive graphical interface, supported by Maven for robust dependency management.\n\nThe system incorporates innovative tools such as custom desktop widgets, integrated Pomodoro timers for managing study sessions, and gamification mechanics that motivate users to meet their daily goals. The software architecture ensures smooth performance, modularity, and a highly user-friendly experience.",
-                
-                "desc-joda": "> TECHNOLOGIES: Java, JavaFX, Maven.\n\nCompilador JODA represents the architectural challenge of designing and implementing a completely new programming language from scratch. This project encompasses the algorithmic construction of its own compiler, covering the full phases of lexical, syntactic, and semantic analysis.\n\nBuilt on a solid Java foundation, visual interfaces in JavaFX, and orchestrated with Maven, JODA is a deep demonstration of advanced knowledge in automata theory, complex data structures, formal grammars, and the internal design of computer language processing.",
-                
-                "desc-libros": "> TECHNOLOGIES: Java, JavaFX, Maven.\n\nDe Libros is a comprehensive digital library platform conceived for the management, reading, and structured organization of literary resources and bibliographic collections.\n\nDeveloped in the robust Java ecosystem, the software employs JavaFX to provide an aesthetically fluid and pleasing visual interface, while Maven handles lifecycle control and project packaging. The application allows highly efficient management of book catalogs, incorporates a filtered search system, and provides an immersive environment for readers, highlighting the solid application of object-oriented design patterns and software engineering best practices."
+                "form-send": "Send Message",
+                "cv-modal-title": "Curriculum Vitae",
+                "cv-modal-subtitle": "Professional profile and academic trajectory document",
+                "cv-modal-info": "You can save an official copy of this document in PDF format.",
+                "btn-download-bottom": "Download Document",
+                "desc-optem": "<strong>TECHNOLOGIES:</strong> Java, JavaFX, Maven.<br><br>OPTEM is an advanced virtual desktop academic planner specifically designed to optimize student organization and productivity. Developed entirely in Java, it uses JavaFX to build a modern and interactive graphical interface, supported by Maven for robust dependency management.<br><br>The system incorporates innovative tools such as custom desktop widgets, integrated Pomodoro timers for managing study sessions, and gamification mechanics that motivate users to meet their daily goals. The software architecture ensures smooth performance, modularity, and a highly user-friendly experience.",
+                "desc-joda": "<strong>TECHNOLOGIES:</strong> Java, JavaFX, Maven.<br><br>Compilador JODA represents the architectural challenge of designing and implementing a completely new programming language from scratch. This project encompasses the algorithmic construction of its own compiler, covering the full phases of lexical, syntactic, and semantic analysis.<br><br>Built on a solid Java foundation, visual interfaces in JavaFX, and orchestrated with Maven, JODA is a deep demonstration of advanced knowledge in automata theory, complex data structures, formal grammars, and the internal design of computer language processing.",
+                "desc-libros": "<strong>TECHNOLOGIES:</strong> Java, JavaFX, Maven.<br><br>De Libros is a comprehensive digital library platform conceived for the management, reading, and structured organization of literary resources and bibliographic collections.<br><br>Developed in the robust Java ecosystem, the software employs JavaFX to provide an aesthetically fluid and pleasing visual interface, while Maven handles lifecycle control and project packaging. The application allows highly efficient management of book catalogs, incorporates a filtered search system, and provides an immersive environment for readers, highlighting the solid application of object-oriented design patterns and software engineering best practices."
             }
         };
 
@@ -715,18 +400,23 @@
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(translations[currentLang][key]) {
-                    el.innerText = translations[currentLang][key];
+                    el.innerHTML = translations[currentLang][key]; 
                 }
             });
             if(currentProjectOpen) {
-                const desc = translations[currentLang]['desc-' + currentProjectOpen];
-                // Permitimos saltos de línea reemplazando \n por <br>
-                document.getElementById('detail-desc').innerHTML = desc.replace(/\n/g, '<br>');
+                document.getElementById('detail-desc').innerHTML = translations[currentLang]['desc-' + currentProjectOpen];
             }
         }
 
         function toggleTheme() {
-            document.documentElement.classList.toggle('light-mode');
+            const isDark = document.documentElement.classList.toggle('dark-mode');
+            const themeBtn = document.querySelector('button[onclick="toggleTheme()"]');
+            
+            if (currentLang === 'es') {
+                themeBtn.innerText = isDark ? "Modo Claro" : "Modo Oscuro";
+            } else {
+                themeBtn.innerText = isDark ? "Light Mode" : "Dark Mode";
+            }
         }
 
         function navigate(pageId) {
@@ -749,16 +439,13 @@
             let title = id === 'optem' ? 'OPTEM' : id === 'joda' ? 'Compilador JODA' : 'De Libros';
             document.getElementById('detail-title').innerText = title;
             
-            // Cargar imagen del proyecto
             let imgSrc = '';
             if (id === 'optem') imgSrc = 'Archivos_extras/Fotos_proyectos/OPTEM.jpeg';
             else if (id === 'joda') imgSrc = 'Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg';
             else if (id === 'libros') imgSrc = 'Archivos_extras/Fotos_proyectos/De_libros.jpeg';
             document.getElementById('detail-img').src = imgSrc;
 
-            // Cargar texto respetando saltos de línea
-            const desc = translations[currentLang]['desc-' + id];
-            document.getElementById('detail-desc').innerHTML = desc.replace(/\n/g, '<br>');
+            document.getElementById('detail-desc').innerHTML = translations[currentLang]['desc-' + id];
         }
 
         function closeProject() {
@@ -770,11 +457,13 @@
         function openCV() {
             document.getElementById('cv-modal').style.display = 'block';
             document.getElementById('cv-backdrop').style.display = 'block';
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeCV() {
             document.getElementById('cv-modal').style.display = 'none';
             document.getElementById('cv-backdrop').style.display = 'none';
+            document.body.style.overflow = 'auto'; 
         }
 
         function handleFormSubmit(event) {
@@ -784,55 +473,8 @@
             document.getElementById('contact-form').reset();
             setTimeout(() => {
                 feedback.style.display = 'none';
-            }, 3000);
+            }, 4000);
         }
-
-        const canvas = document.getElementById('space-canvas');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-        const numStars = 400;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                z: Math.random() * canvas.width
-            });
-        }
-
-        function drawStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const isLight = document.documentElement.classList.contains('light-mode');
-            ctx.fillStyle = isLight ? '#ffff00' : '#ffffff'; 
-
-            for (let i = 0; i < numStars; i++) {
-                let star = stars[i];
-                star.z -= 2;
-                if (star.z <= 0) {
-                    star.x = Math.random() * canvas.width;
-                    star.y = Math.random() * canvas.height;
-                    star.z = canvas.width;
-                }
-
-                let x = (star.x - canvas.width / 2) * (canvas.width / star.z) + canvas.width / 2;
-                let y = (star.y - canvas.height / 2) * (canvas.width / star.z) + canvas.height / 2;
-                let radius = (canvas.width / star.z) * 1.5;
-
-                ctx.beginPath();
-                ctx.arc(x, y, radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            requestAnimationFrame(drawStars);
-        }
-        drawStars();
     </script>
 </body>
 </html>
