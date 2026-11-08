@@ -125,7 +125,7 @@ body, html {
 }
 
 /* ==================================
-   EFECTOS DE FOTO DE PERFIL Y BOTONES
+   EFECTOS DE FOTO DE PERFIL Y TARJETA INICIO
    ================================== */
 .animated-float {
     animation: floatElement 8s ease-in-out infinite; 
@@ -160,6 +160,60 @@ body, html {
     object-fit: cover;
     display: block;
     border: 2px solid transparent;
+}
+
+.profile-caption-box {
+    text-align: center; 
+    margin-top: 20px; 
+    max-width: 300px;
+    padding: 15px;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    backdrop-filter: blur(8px);
+}
+
+.profile-badge {
+    display: inline-block;
+    background-color: var(--uaemex-gold);
+    color: #0b1410;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-name-title {
+    font-size: 17px; 
+    font-weight: 700; 
+    line-height: 1.3; 
+    color: var(--highlight);
+    margin-bottom: 5px;
+}
+:root.dark-mode .profile-name-title { color: var(--uaemex-gold); }
+
+.profile-uni-title {
+    font-size: 14px; 
+    color: var(--text-muted); 
+    font-weight: 500;
+}
+
+.welcome-header-wrapper {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.welcome-tag {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--uaemex-gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .pulse-btn {
@@ -348,6 +402,7 @@ h1, h2, h3 { color: var(--highlight); margin-bottom: 15px; }
     text-align: center;
     box-shadow: 0 4px 15px rgba(17, 76, 54, 0.3);
     margin-top: 20px;
+    width: 100%;
 }
 
 .inst-btn:hover {
@@ -522,7 +577,7 @@ h1, h2, h3 { color: var(--highlight); margin-bottom: 15px; }
 .enlace-card:hover .enlace-icon { transform: scale(1.25) translateY(-5px); }
 
 /* ==================================
-   CONTACTOS (NUEVAS TARJETAS MODERNAS)
+   CONTACTOS
    ================================== */
 .contact-grid {
     display: grid;
@@ -566,16 +621,11 @@ h1, h2, h3 { color: var(--highlight); margin-bottom: 15px; }
     color: var(--uaemex-gold);
 }
 
-:root.dark-mode .contact-icon {
-    color: var(--uaemex-gold);
-}
-
-:root.dark-mode .contact-card:hover .contact-icon {
-    color: var(--uaemex-light-green);
-}
+:root.dark-mode .contact-icon { color: var(--uaemex-gold); }
+:root.dark-mode .contact-card:hover .contact-icon { color: var(--uaemex-light-green); }
 
 .whatsapp-card:hover {
-    background-color: #128c7e !important; /* Color oficial de WhatsApp en hover */
+    background-color: #128c7e !important; 
     border-color: #25d366 !important;
 }
 
@@ -584,19 +634,9 @@ h1, h2, h3 { color: var(--highlight); margin-bottom: 15px; }
     margin-bottom: 4px;
     color: var(--highlight);
 }
-
-:root.dark-mode .contact-card h3 {
-    color: var(--uaemex-gold);
-}
-
-.contact-card p {
-    font-size: 15px;
-    color: var(--text-muted);
-}
-
-:root.dark-mode .contact-card p {
-    color: #cccccc;
-}
+:root.dark-mode .contact-card h3 { color: var(--uaemex-gold); }
+.contact-card p { font-size: 15px; color: var(--text-muted); }
+:root.dark-mode .contact-card p { color: #cccccc; }
 
 .inst-input {
     width: 100%;
