@@ -11,6 +11,9 @@
 </head>
 <body>
 
+    <!-- Elementos dinámicos de fondo institucional -->
+    <div class="bg-mesh"></div>
+
     <!-- Navegación Superior Institucional -->
     <nav id="top-nav">
         <div class="nav-left">
@@ -39,16 +42,18 @@
             
             <div class="profile-container">
                 <div class="profile-left">
-                    <img src="Archivos_extras/Fotos_perfil/foto-perfil.jpeg" alt="Alexis Gethsemani" class="profile-pic" onerror="this.style.display='none'">
+                    <div class="profile-pic-frame">
+                        <img src="Archivos_extras/Fotos_perfil/foto-perfil.jpeg" alt="Alexis Gethsemani" class="profile-pic" onerror="this.style.display='none'">
+                    </div>
                     <div style="text-align: center; margin-top: 20px; max-width: 300px;">
                         <p data-i18n="profile-title" style="font-size: 20px; font-weight: bold; line-height: 1.3; color: var(--highlight);">Estudiante de Ing. en Software<br>Alexis Gethsemani Hernández Hernández</p>
-                        <p style="font-size: 16px; color: var(--uaemex-gold); font-weight: 500; margin-top: 5px;">Universidad Autónoma del Estado de México</p>
+                        <p style="font-size: 16px; color: var(--uaemex-gold); font-weight: 600; margin-top: 5px;">Universidad Autónoma del Estado de México</p>
                     </div>
-                    <button class="inst-btn" onclick="openCV()" data-i18n="btn-view-cv">Ver Documento Curricular</button>
+                    <button class="inst-btn glow-effect" onclick="openCV()" data-i18n="btn-view-cv"><i class="fa-solid fa-file-pdf" style="margin-right: 8px;"></i>Ver Documento Curricular</button>
                 </div>
                 
-                <div class="profile-info">
-                    <h2 data-i18n="welcome-title" style="font-size: 32px; color: var(--highlight);">Bienvenidos a mi Portal Académico y Profesional</h2>
+                <div class="profile-info glass-card">
+                    <h2 data-i18n="welcome-title" style="font-size: 30px; color: var(--highlight); margin-bottom: 20px;">Bienvenidos a mi Portal Académico y Profesional</h2>
                     <p data-i18n="welcome-desc">Soy Alexis Gethsemani Hernandez Hernandez, estudiante de quinto semestre de Ingeniería de Software en la UAEMéx, enfocado en la creación de soluciones tecnológicas, el diseño de sistemas y la resolución eficiente de problemas. Me especializo en analizar desafíos, identificar oportunidades de mejora y desarrollar soluciones funcionales mediante la programación, las buenas prácticas de software y el uso estratégico de herramientas de Inteligencia Artificial. En este portal encontrarás mis proyectos académicos, habilidades técnicas y experiencia en el análisis, diseño y desarrollo de sistemas, demostrando mi capacidad para adaptarme a nuevos retos, optimizar procesos y transformar ideas en soluciones concretas que respondan a las necesidades del entorno institucional y empresarial.</p>
                 </div>
             </div>
@@ -58,7 +63,7 @@
         <section id="sobre-mi" class="page-section">
             <h1 class="section-title" data-i18n="title-about">Perfil Profesional y Académico</h1>
             
-            <div class="profile-info" style="max-width: 100%; margin-bottom: 30px;">
+            <div class="profile-info glass-card" style="max-width: 100%; margin-bottom: 35px;">
                 <p data-i18n="about-text-extended" style="text-align: justify; line-height: 1.8; font-size: 18px;">
                     Me he formado sólidamente en la <strong>Universidad Autónoma del Estado de México (UAEMéx)</strong>, desarrollando un perfil enfocado en la ingeniería de software de alta calidad, la gestión eficiente de proyectos y la innovación tecnológica. Asimismo, integro de forma activa el <strong>uso de diferentes Inteligencias Artificiales (IAs)</strong> como herramientas clave para potenciar la productividad, el análisis de requerimientos, la optimización de código y la toma de decisiones informadas.
                 </p>
@@ -66,54 +71,54 @@
 
             <!-- Contenedor en Cajas / Tarjetas Diferentes -->
             <div class="info-boxes-grid">
-                <div class="info-box-card">
-                    <h3 data-i18n="box-leadership-title"><i class="fa-solid fa-users-gear" style="color: var(--uaemex-gold); margin-right: 10px;"></i> Liderazgo de Grupos</h3>
+                <div class="info-box-card glass-card">
+                    <h3 data-i18n="box-leadership-title"><i class="fa-solid fa-users-gear" style="color: var(--uaemex-gold); margin-right: 12px;"></i> Liderazgo de Grupos</h3>
                     <p data-i18n="box-leadership-desc">Capacidad demostrada para coordinar y guiar equipos de trabajo multidisciplinarios, fomentando la colaboración activa, organizando tareas técnicas y orientando los esfuerzos grupales hacia el cumplimiento exitoso de los objetivos institucionales y de desarrollo de software.</p>
                 </div>
 
-                <div class="info-box-card">
-                    <h3 data-i18n="box-conflict-title"><i class="fa-solid fa-scale-balanced" style="color: var(--uaemex-gold); margin-right: 10px;"></i> Resolución de Conflictos</h3>
+                <div class="info-box-card glass-card">
+                    <h3 data-i18n="box-conflict-title"><i class="fa-solid fa-scale-balanced" style="color: var(--uaemex-gold); margin-right: 12px;"></i> Resolución de Conflictos</h3>
                     <p data-i18n="box-conflict-desc">Habilidad analítica para identificar discrepancias técnicas u organizacionales de manera oportuna, aplicando una comunicación asertiva, negociación y mediación estratégica para transformar los desafíos en soluciones funcionales y armoniosas dentro del equipo.</p>
                 </div>
             </div>
             
-            <h3 data-i18n="skills-title" style="margin: 40px 0 25px 0;">Habilidades Técnicas y Competencias (Clic para ver certificado):</h3>
+            <h3 data-i18n="skills-title" style="margin: 45px 0 25px 0;">Habilidades Técnicas y Competencias (Clic para ver certificado):</h3>
             
             <!-- Cuadrícula de Habilidades / Botones -->
             <div class="skills-grid">
-                <button class="skill-btn" onclick="openCert('java')">
+                <button class="skill-btn glass-card" onclick="openCert('java')">
                     <i class="fa-brands fa-java skill-icon"></i>
                     <span>Java SE</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('python')">
+                <button class="skill-btn glass-card" onclick="openCert('python')">
                     <i class="fa-brands fa-python skill-icon"></i>
                     <span>Python</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('c')">
+                <button class="skill-btn glass-card" onclick="openCert('c')">
                     <i class="fa-solid fa-code skill-icon"></i>
                     <span>C / C++</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('mysql')">
+                <button class="skill-btn glass-card" onclick="openCert('mysql')">
                     <i class="fa-solid fa-database skill-icon"></i>
                     <span>MySQL</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('cisco')">
+                <button class="skill-btn glass-card" onclick="openCert('cisco')">
                     <i class="fa-solid fa-network-wired skill-icon"></i>
                     <span>Cisco / Redes</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('git')">
+                <button class="skill-btn glass-card" onclick="openCert('git')">
                     <i class="fa-brands fa-github skill-icon"></i>
                     <span>Git / GitHub</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('ia')">
+                <button class="skill-btn glass-card" onclick="openCert('ia')">
                     <i class="fa-solid fa-robot skill-icon"></i>
                     <span>IA y Prompting</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('arduino')">
+                <button class="skill-btn glass-card" onclick="openCert('arduino')">
                     <i class="fa-solid fa-microchip skill-icon"></i>
                     <span>Arduino</span>
                 </button>
-                <button class="skill-btn" onclick="openCert('ingles')">
+                <button class="skill-btn glass-card" onclick="openCert('ingles')">
                     <i class="fa-solid fa-language skill-icon"></i>
                     <span>Inglés</span>
                 </button>
@@ -125,26 +130,32 @@
             <h1 class="section-title" data-i18n="title-projects">Proyectos Académicos</h1>
             
             <div id="projects-list" class="grid-container">
-                <div class="card" onclick="showProject('optem')">
-                    <img src="Archivos_extras/Fotos_proyectos/OPTEM.jpeg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
+                <div class="card glass-card" onclick="showProject('optem')">
+                    <div class="card-img-wrapper">
+                        <img src="Archivos_extras/Fotos_proyectos/OPTEM.jpeg" alt="Proyecto OPTEM" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
+                    </div>
                     <h3>OPTEM</h3>
                     <p data-i18n="proj-optem-short">Agenda académica virtual</p>
                 </div>
-                <div class="card" onclick="showProject('joda')">
-                    <img src="Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
+                <div class="card glass-card" onclick="showProject('joda')">
+                    <div class="card-img-wrapper">
+                        <img src="Archivos_extras/Fotos_proyectos/Compilador_JODA.jpeg" alt="Compilador JODA" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
+                    </div>
                     <h3>Compilador JODA</h3>
                     <p data-i18n="proj-joda-short">Diseño de lenguaje y compilador</p>
                 </div>
-                <div class="card" onclick="showProject('libros')">
-                    <img src="Archivos_extras/Fotos_proyectos/De_libros.jpeg" alt="Proyecto De Libros" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
+                <div class="card glass-card" onclick="showProject('libros')">
+                    <div class="card-img-wrapper">
+                        <img src="Archivos_extras/Fotos_proyectos/De_libros.jpeg" alt="Proyecto De Libros" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' background=\'#ddd\' width=\'100%\' height=\'150\'></svg>'">
+                    </div>
                     <h3 data-i18n="proj-libros-title">De Libros</h3>
                     <p data-i18n="proj-libros-short">Plataforma de biblioteca digital</p>
                 </div>
             </div>
 
             <!-- VISTA EXPANDIDA DEL PROYECTO -->
-            <div id="project-details">
-                <button class="inst-btn" onclick="closeProject()" data-i18n="btn-back" style="margin-bottom: 20px;">Volver al Catálogo</button>
+            <div id="project-details" class="glass-card">
+                <button class="inst-btn" onclick="closeProject()" data-i18n="btn-back" style="margin-bottom: 25px;"><i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i>Volver al Catálogo</button>
                 <div class="detail-layout">
                     <div class="detail-img-container">
                         <img id="detail-img" src="" alt="Imagen detallada">
@@ -163,27 +174,27 @@
             <p style="margin-bottom: 30px; font-size: 18px;" data-i18n="links-desc">Accesos directos a los principales portales de la Universidad Autónoma del Estado de México y comunidades académicas.</p>
             
             <div class="grid-container">
-                <a href="https://www.uaemex.mx/" target="_blank" class="card enlace-card">
+                <a href="https://www.uaemex.mx/" target="_blank" class="card enlace-card glass-card">
                     <div class="enlace-icon">🏛️</div>
                     <h3 data-i18n="link-uaemex">Portal Oficial UAEMéx</h3>
                     <p>uaemex.mx</p>
                 </a>
-                <a href="https://ri.uaemex.mx/" target="_blank" class="card enlace-card">
+                <a href="https://ri.uaemex.mx/" target="_blank" class="card enlace-card glass-card">
                     <div class="enlace-icon">📚</div>
                     <h3 data-i18n="link-ri">Repositorio Institucional</h3>
                     <p>ri.uaemex.mx</p>
                 </a>
-                <a href="https://nuevoingreso.uaemex.mx/posgrado/oferta" target="_blank" class="card enlace-card">
+                <a href="https://nuevoingreso.uaemex.mx/posgrado/oferta" target="_blank" class="card enlace-card glass-card">
                     <div class="enlace-icon">🎓</div>
                     <h3 data-i18n="link-posgrados">Posgrados UAEMéx</h3>
                     <p data-i18n="link-posgrados-desc">Oferta de estudios avanzados</p>
                 </a>
-                <a href="http://cutianguistenco.uaemex.mx/" target="_blank" class="card enlace-card">
+                <a href="http://cutianguistenco.uaemex.mx/" target="_blank" class="card enlace-card glass-card">
                     <div class="enlace-icon">🏫</div>
                     <h3 data-i18n="link-cut">Posgrados CUT Tianguistenco</h3>
                     <p data-i18n="link-cut-desc">Centro Universitario UAEM Tianguistenco</p>
                 </a>
-                <a href="https://www.facebook.com/uaptianguistenco?locale=es_LA" target="_blank" class="card enlace-card">
+                <a href="https://www.facebook.com/uaptianguistenco?locale=es_LA" target="_blank" class="card enlace-card glass-card">
                     <div class="enlace-icon">💻</div>
                     <h3 data-i18n="link-fb">Ingeniería de Software</h3>
                     <p data-i18n="link-fb-desc">Página Oficial en Facebook</p>
@@ -197,30 +208,30 @@
             
             <div style="margin-bottom: 40px;">
                 <p data-i18n="contact-desc" style="margin-bottom: 15px; font-weight: 500;">Canales de comunicación directa:</p>
-                <ul style="list-style: none; padding-left: 0; line-height: 2;">
+                <ul style="list-style: none; padding-left: 0; line-height: 2.2;">
                     <li><strong style="color: var(--uaemex-gold);">■</strong> Email Institucional / Personal: <a href="mailto:alexisgethsemani@gmail.com" style="color: var(--highlight); text-decoration: none; font-weight: bold;">alexisgethsemani@gmail.com</a></li>
                     <li><strong style="color: var(--uaemex-gold);">■</strong> GitHub: <a href="https://github.com/Azathoth-AGHH" target="_blank" style="color: var(--highlight); text-decoration: none;">Azathoth-AGHH</a></li>
                     <li><strong style="color: var(--uaemex-gold);">■</strong> LinkedIn / Redes: <a href="https://www.linkedin.com/" target="_blank" style="color: var(--highlight); text-decoration: none;">Perfil Profesional</a></li>
                 </ul>
             </div>
 
-            <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; background: var(--container-bg); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+            <div class="glass-card" style="border-radius: 12px; padding: 35px;">
                 <h3 style="color: var(--uaemex-green); border-bottom: 2px solid var(--uaemex-gold); padding-bottom: 10px; margin-bottom: 25px;" data-i18n="form-title">Formulario de Contacto</h3>
                 
                 <form id="contact-form" onsubmit="handleFormSubmit(event)">
-                    <div style="margin-bottom: 15px;">
-                        <label data-i18n="form-email" style="display: block; margin-bottom: 5px; font-weight: 500;">Correo Electrónico:</label>
-                        <input type="email" placeholder="ejemplo@correo.com" style="width: 100%; max-width: 400px; border-radius: 4px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; font-family: inherit;" required>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label data-i18n="form-subject" style="display: block; margin-bottom: 5px; font-weight: 500;">Asunto:</label>
-                        <input type="text" placeholder="Motivo de contacto" style="width: 100%; max-width: 400px; border-radius: 4px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; font-family: inherit;" required>
+                    <div style="margin-bottom: 20px;">
+                        <label data-i18n="form-email" style="display: block; margin-bottom: 8px; font-weight: 500;">Correo Electrónico:</label>
+                        <input type="email" placeholder="ejemplo@correo.com" class="inst-input" required>
                     </div>
                     <div style="margin-bottom: 20px;">
-                        <label data-i18n="form-msg" style="display: block; margin-bottom: 5px; font-weight: 500;">Mensaje:</label>
-                        <textarea placeholder="Escriba su mensaje aquí..." style="width: 100%; max-width: 400px; height: 100px; border-radius: 4px; background: transparent; color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; font-family: inherit; resize: vertical;" required></textarea>
+                        <label data-i18n="form-subject" style="display: block; margin-bottom: 8px; font-weight: 500;">Asunto:</label>
+                        <input type="text" placeholder="Motivo de contacto" class="inst-input" required>
                     </div>
-                    <button type="submit" class="inst-btn" data-i18n="form-send">Enviar Mensaje</button>
+                    <div style="margin-bottom: 25px;">
+                        <label data-i18n="form-msg" style="display: block; margin-bottom: 8px; font-weight: 500;">Mensaje:</label>
+                        <textarea placeholder="Escriba su mensaje aquí..." class="inst-input" style="height: 120px; resize: vertical;" required></textarea>
+                    </div>
+                    <button type="submit" class="inst-btn glow-effect" data-i18n="form-send">Enviar Mensaje</button>
                     <span id="form-feedback" style="display: none; color: var(--uaemex-green); margin-left: 15px; font-weight: bold;">✓ Mensaje enviado correctamente.</span>
                 </form>
             </div>
@@ -230,7 +241,7 @@
 
     <!-- MODAL CURRICULUM INSTITUCIONAL -->
     <div class="modal-backdrop" id="cv-backdrop" onclick="closeCV()"></div>
-    <div id="cv-modal">
+    <div id="cv-modal" class="glass-card">
         <button class="close-btn-icon" onclick="closeCV()">✖</button>
         <div class="modal-layout-vertical">
             <div class="modal-header">
